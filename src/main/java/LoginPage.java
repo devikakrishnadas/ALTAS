@@ -162,8 +162,7 @@ public class LoginPage extends javax.swing.JFrame {
         //System.out.println("I am being executed idk why!");
         this.setVisible(false);
         if(stud == 0){
-            //gotta fill this up
-            new FacultyHomePage().setVisible(true);
+            new FacultyHomePage(usr).setVisible(true);
         }
         else{
             //gotta fill this up
