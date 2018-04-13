@@ -14,8 +14,10 @@ public class FacultyHomePage extends javax.swing.JFrame {
      * Creates new form FacultyHomePage
      */
     String Uname;
-    public FacultyHomePage(String username) {
+    MainWindow prev;
+    public FacultyHomePage(String username,MainWindow prev) {
         Uname = username;
+        this.prev=prev;
         initComponents();
     }
 
@@ -47,7 +49,12 @@ public class FacultyHomePage extends javax.swing.JFrame {
         ViewPreviousTestsButton.setText("View Previous Tests");
         ViewPreviousTestsButton.setToolTipText("");
 
-        ExitButton.setText("Exit");
+        ExitButton.setText("Logout");
+        ExitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExitButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -82,9 +89,15 @@ public class FacultyHomePage extends javax.swing.JFrame {
     private void CreateNewTestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateNewTestButtonActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        new CreateNewTest(Uname).setVisible(true);
+        new CreateNewTest(Uname,this).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_CreateNewTestButtonActionPerformed
+
+    private void ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButtonActionPerformed
+        // TODO add your handling code here:
+        prev.setVisible(true);    // Need to find a way to clear username and password
+        this.dispose();
+    }//GEN-LAST:event_ExitButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

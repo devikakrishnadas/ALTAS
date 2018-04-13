@@ -48,6 +48,11 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         ExitButton.setText("Exit");
+        ExitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExitButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -57,9 +62,8 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGap(134, 134, 134)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(ExitButton, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(StudentLoginButton, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
-                        .addComponent(FacultyLoginButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(StudentLoginButton, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                    .addComponent(FacultyLoginButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(164, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -80,20 +84,25 @@ public class MainWindow extends javax.swing.JFrame {
     private void FacultyLoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FacultyLoginButtonActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        LoginPage lp = new LoginPage();
+        LoginPage lp = new LoginPage(this);
         lp.setVisible(true);
         lp.setstud(0);
-        this.dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_FacultyLoginButtonActionPerformed
 
     private void StudentLoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StudentLoginButtonActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        LoginPage lp = new LoginPage();
+        LoginPage lp = new LoginPage(this);
         lp.setVisible(true);
         lp.setstud(1);
         this.dispose();
     }//GEN-LAST:event_StudentLoginButtonActionPerformed
+
+    private void ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButtonActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_ExitButtonActionPerformed
 
     /**
      * @param args the command line arguments
