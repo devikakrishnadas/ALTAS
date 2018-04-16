@@ -45,6 +45,11 @@ public class FacultyHomePage extends javax.swing.JFrame {
         });
 
         ViewUpcomingTestsButton.setText("View Upcoming Tests");
+        ViewUpcomingTestsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ViewUpcomingTestsButtonActionPerformed(evt);
+            }
+        });
 
         ViewPreviousTestsButton.setText("View Previous Tests");
         ViewPreviousTestsButton.setToolTipText("");
@@ -109,6 +114,12 @@ public class FacultyHomePage extends javax.swing.JFrame {
         this.setVisible(false);
         new ViewPreviousTests(this).setVisible(true);
     }//GEN-LAST:event_ViewPreviousTestsButtonActionPerformed
+
+    private void ViewUpcomingTestsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewUpcomingTestsButtonActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new ViewUpcomingTests(this,Uname).setVisible(true);
+    }//GEN-LAST:event_ViewUpcomingTestsButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
