@@ -1,3 +1,7 @@
+
+import java.awt.Component;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -131,6 +135,13 @@ public class ViewPreviousTests extends javax.swing.JFrame {
         // TODO add your handling code here:
         String Text=TestList.getSelectedValue();
 //        System.out.println(Text);
+        
+        if(Text==null)
+        {
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Please Select a Test");
+            return ;
+        }
         this.setVisible(false);
         new ViewResult(this).setVisible(true);
     }//GEN-LAST:event_ViewResultActionPerformed
