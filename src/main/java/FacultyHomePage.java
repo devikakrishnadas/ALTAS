@@ -48,6 +48,11 @@ public class FacultyHomePage extends javax.swing.JFrame {
 
         ViewPreviousTestsButton.setText("View Previous Tests");
         ViewPreviousTestsButton.setToolTipText("");
+        ViewPreviousTestsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ViewPreviousTestsButtonActionPerformed(evt);
+            }
+        });
 
         ExitButton.setText("Logout");
         ExitButton.addActionListener(new java.awt.event.ActionListener() {
@@ -65,7 +70,7 @@ public class FacultyHomePage extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(CreateNewTestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ViewUpcomingTestsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ViewPreviousTestsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ViewPreviousTestsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ExitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(106, Short.MAX_VALUE))
         );
@@ -98,6 +103,12 @@ public class FacultyHomePage extends javax.swing.JFrame {
         prev.setVisible(true);    // Need to find a way to clear username and password
         this.dispose();
     }//GEN-LAST:event_ExitButtonActionPerformed
+
+    private void ViewPreviousTestsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewPreviousTestsButtonActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new ViewPreviousTests(this).setVisible(true);
+    }//GEN-LAST:event_ViewPreviousTestsButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
