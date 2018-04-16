@@ -41,6 +41,13 @@ public class CreateNewTest extends javax.swing.JFrame {
         initComponents();
         this.prev=prev;
     }
+    
+    // On clicking edit on ViewUpcommingTest page
+    public CreateNewTest(String username,long testid) {
+        Uname = username;
+        TestID = testid;
+        initComponents(); 
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
