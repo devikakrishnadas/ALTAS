@@ -110,8 +110,9 @@ public class LoginPage extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(UsernameField)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
                         .addComponent(ClearButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
                         .addComponent(LoginButton))
                     .addComponent(PasswordField))
                 .addGap(48, 48, 48))
@@ -185,12 +186,14 @@ public class LoginPage extends javax.swing.JFrame {
     
     private void ClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearButtonActionPerformed
         // TODO add your handling code here:
+        UsernameField.setText("");
+        PasswordField.setText("");
         
     }//GEN-LAST:event_ClearButtonActionPerformed
 
     private void UsernameFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UsernameFieldMouseClicked
         // TODO add your handling code here:
-        UsernameField.setText("");
+ 
     }//GEN-LAST:event_UsernameFieldMouseClicked
 
     private void PasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordFieldActionPerformed
