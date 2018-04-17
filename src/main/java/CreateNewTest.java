@@ -81,6 +81,11 @@ public class CreateNewTest extends javax.swing.JFrame {
         jLabel3.setText("Duration");
 
         TestNameField.setText("[Eg : Test123 ]");
+        TestNameField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TestNameFieldMouseClicked(evt);
+            }
+        });
         TestNameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TestNameFieldActionPerformed(evt);
@@ -95,8 +100,18 @@ public class CreateNewTest extends javax.swing.JFrame {
         });
 
         DurationHourField.setText("Hours");
+        DurationHourField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DurationHourFieldMouseClicked(evt);
+            }
+        });
 
         DurationMinField.setText("Minutes");
+        DurationMinField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DurationMinFieldMouseClicked(evt);
+            }
+        });
 
         jLabel4.setText(":");
 
@@ -110,6 +125,11 @@ public class CreateNewTest extends javax.swing.JFrame {
         jLabel6.setText("Date");
 
         DateField.setText("yyyy-mm-dd");
+        DateField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DateFieldMouseClicked(evt);
+            }
+        });
         DateField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DateFieldActionPerformed(evt);
@@ -118,6 +138,11 @@ public class CreateNewTest extends javax.swing.JFrame {
 
         TimeField.setText("hh:mm:ss");
         TimeField.setToolTipText("24 hour format");
+        TimeField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TimeFieldMouseClicked(evt);
+            }
+        });
         TimeField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TimeFieldActionPerformed(evt);
@@ -148,21 +173,21 @@ public class CreateNewTest extends javax.swing.JFrame {
                                     .addComponent(jLabel3)
                                     .addComponent(jButton1))
                                 .addGap(68, 68, 68)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(DurationHourField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(DurationHourField)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(DurationMinField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(DateField)
-                                        .addComponent(TestNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                                        .addComponent(TimeField))))))
+                                        .addComponent(DurationMinField, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(9, 9, 9))
+                                    .addComponent(DateField)
+                                    .addComponent(TestNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                                    .addComponent(TimeField)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(190, 190, 190)
                         .addComponent(SubmitButton)))
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addGap(74, 74, 74))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(AddQuestionButton)
@@ -235,6 +260,59 @@ public class CreateNewTest extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_TestNameFieldActionPerformed
 
+    private void DateFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DateFieldMouseClicked
+        // TODO add your handling code here:
+        if(DateField.getText().equals("yyyy-mm-dd"))
+            {
+                DateField.setText("");
+                repaint();
+                revalidate();
+            }     
+    }//GEN-LAST:event_DateFieldMouseClicked
+
+    private void TestNameFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TestNameFieldMouseClicked
+        // TODO add your handling code here:
+        if(TestNameField.getText().equals("[Eg : Test123 ]"))
+            {
+                TestNameField.setText("");
+                repaint();
+                revalidate();
+            }   
+    }//GEN-LAST:event_TestNameFieldMouseClicked
+
+    private void TimeFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TimeFieldMouseClicked
+        // TODO add your handling code here:
+        if(TimeField.getText().equals("hh:mm:ss"))
+            {
+                TimeField.setText("");
+                repaint();
+                revalidate();
+            }  
+        
+    }//GEN-LAST:event_TimeFieldMouseClicked
+
+    private void DurationHourFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DurationHourFieldMouseClicked
+        // TODO add your handling code here:
+        if(DurationHourField.getText().equals("Hours"))
+            {
+                DurationHourField.setText("");
+                repaint();
+                revalidate();
+            }  
+    }//GEN-LAST:event_DurationHourFieldMouseClicked
+
+    private void DurationMinFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DurationMinFieldMouseClicked
+        // TODO add your handling code here:
+        if(DurationMinField.getText().equals("Minutes"))
+            {
+                DurationMinField.setText("");
+                repaint();
+                revalidate();
+            }  
+        
+    }//GEN-LAST:event_DurationMinFieldMouseClicked
+
+    
     /**
      * @param args the command line arguments
      */
