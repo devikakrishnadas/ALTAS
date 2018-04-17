@@ -1,10 +1,10 @@
 
+import com.mongodb.MongoClient;
 import java.awt.Component;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.filechooser.FileSystemView;
 
 /*
@@ -22,8 +22,14 @@ public class AddQuestion extends javax.swing.JFrame {
     /**
      * Creates new form AddQuestion
      */
-    public AddQuestion() {
+    CreateNewTest prev;
+    ArrayList<File> Questions = new ArrayList<>();
+    long TestID;
+    MongoClient mongo;
+    public AddQuestion(CreateNewTest obj,long TestID) {
+        prev = obj;
         initComponents();
+        this.TestID = TestID;
     }
 
     /**
@@ -46,6 +52,7 @@ public class AddQuestion extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         ShowQuestionPanel = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
+        DoneButton = new javax.swing.JButton();
 
         jMenu1.setText("jMenu1");
 
@@ -62,7 +69,7 @@ public class AddQuestion extends javax.swing.JFrame {
 
         jLabel1.setText("Problem Statement");
 
-        jLabel2.setText("Add Test Case");
+        jLabel2.setText("Add Test Cases");
 
         AddTestCaseButton.setText("Add");
         AddTestCaseButton.addActionListener(new java.awt.event.ActionListener() {
@@ -74,6 +81,13 @@ public class AddQuestion extends javax.swing.JFrame {
         jScrollPane1.setViewportView(ShowQuestionPanel);
 
         jButton1.setText("Add Problem");
+
+        DoneButton.setText("Done");
+        DoneButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DoneButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,8 +113,13 @@ public class AddQuestion extends javax.swing.JFrame {
                         .addComponent(AddTestCaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(26, 26, 26))
             .addGroup(layout.createSequentialGroup()
-                .addGap(139, 139, 139)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(139, 139, 139)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(164, 164, 164)
+                        .addComponent(DoneButton)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -120,7 +139,9 @@ public class AddQuestion extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(DoneButton)
+                .addContainerGap())
         );
 
         pack();
@@ -141,46 +162,19 @@ public class AddQuestion extends javax.swing.JFrame {
         Component frame = null;
         showOpenDialog = jfc.showOpenDialog(frame);
         File[] file = jfc.getSelectedFiles();
+        Questions.addAll(Arrays.asList(file));
+        
     }//GEN-LAST:event_AddProblemStatementButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddQuestion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddQuestion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddQuestion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddQuestion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void DoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoneButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DoneButtonActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AddQuestion().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddProblemStatementButton;
     private javax.swing.JButton AddTestCaseButton;
+    private javax.swing.JButton DoneButton;
     private javax.swing.JList<String> ShowQuestionPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
