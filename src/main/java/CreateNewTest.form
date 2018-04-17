@@ -125,6 +125,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="[Eg : Test123 ]"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TestNameFieldActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="AddQuestionButton">
       <Properties>
@@ -181,7 +184,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;---"/>
+        <Property name="text" type="java.lang.String" value="Home"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>

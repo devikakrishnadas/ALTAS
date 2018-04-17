@@ -81,6 +81,11 @@ public class CreateNewTest extends javax.swing.JFrame {
         jLabel3.setText("Duration");
 
         TestNameField.setText("[Eg : Test123 ]");
+        TestNameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TestNameFieldActionPerformed(evt);
+            }
+        });
 
         AddQuestionButton.setText("--->");
         AddQuestionButton.addActionListener(new java.awt.event.ActionListener() {
@@ -119,7 +124,7 @@ public class CreateNewTest extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("<---");
+        jButton1.setText("Home");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -225,6 +230,10 @@ public class CreateNewTest extends javax.swing.JFrame {
         this.setVisible(false);
         prev.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void TestNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TestNameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TestNameFieldActionPerformed
 
     /**
      * @param args the command line arguments
