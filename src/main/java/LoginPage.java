@@ -153,7 +153,7 @@ public class LoginPage extends javax.swing.JFrame {
             //connect to database
             Class.forName("org.postgresql.Driver");            
             Connection conn = null;
-            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/altasdb","postgres","postgres");
+            conn = DriverManager.getConnection("jdbc:postgresql://elmer.db.elephantsql.com:5432/zmglkugx","zmglkugx","s8hW68DxJLftEUIiBRo5TGYuMKSYQtCt");
             SearchModule s = new SearchModule();
             s.setconn(conn);
             int res = s.Login(usr,pwd,stud);

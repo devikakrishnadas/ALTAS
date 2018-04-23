@@ -262,7 +262,7 @@ public class CreateNewTest extends javax.swing.JFrame {
         String TestName = TestNameField.getText();
         try {            
             Class.forName("org.postgresql.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/altasdb","postgres","postgres");
+            Connection conn = DriverManager.getConnection("jdbc:postgresql://elmer.db.elephantsql.com:5432/zmglkugx","zmglkugx","s8hW68DxJLftEUIiBRo5TGYuMKSYQtCt");
             Map data = new HashMap();
             AddTestModule atm = new AddTestModule(conn);
             data.put("TestID",TestID);
