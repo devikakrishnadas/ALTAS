@@ -3,6 +3,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,12 +30,16 @@ public class SearchModule {
     public int Login(String Username, String Password,int stud){
         PreparedStatement pres;
         ResultSet res;
-        String tablename;
-        if(stud==1)
-            tablename = "RegisteredStudents";
-        else 
-            tablename = "RegisteredFaculty";
-        String query = "select count(*) from "+ tablename +" where Username='"+ Username +"'and password='"+ Password +"';";
+        String tablename,accountType;
+        if(stud==1){
+            tablename = "userlist";
+            accountType="s";
+        }
+        else {
+            tablename = "userlist";
+            accountType="f";
+        }
+        String query = "select count(*) from "+ tablename +" where Username='"+ Username +"' and password='"+ Password +"' and accounttype='"+accountType+"';";
         try {
             
             pres = conn.prepareStatement(query);
@@ -44,5 +51,105 @@ public class SearchModule {
             Logger.getLogger(SearchModule.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
+    }
+    ArrayList<Test> UpcomingTestDetails() {
+        // returns a list of all upcomming tests
+        PreparedStatement prestmt = null;
+        ResultSet res = null;
+        ArrayList<Test> A = new ArrayList<Test>();
+        Test temp;
+        try {
+            String query = "select * from test where starttime > CURRENT_TIMESTAMP;";
+            System.out.println(query);
+            prestmt = conn.prepareStatement(query);
+            res = prestmt.executeQuery();
+            while(res.next()){
+                temp = new Test();
+                temp.Testid = res.getLong(1);
+                temp.Starttime = res.getTimestamp(2);
+                temp.Endtime = res.getTimestamp(3);
+                temp.Testname = res.getString(4);
+//                temp.status = res.getInt(5);
+                A.add(temp);
+            }
+            // conn.commit();
+            //print(res);
+            System.out.println("Statement excetued Successfully");
+            
+        } catch (SQLException sqle){
+            System.out.println("Statement not excetued");
+            /*
+            try {
+                conn.rollback();
+                System.out.println("Rollback successful");
+                 
+            } catch (SQLException sqle1){
+                System.out.println("Error");
+                System.out.println(sqle1.getMessage());
+            }
+            */
+            System.out.println(sqle.getMessage());
+            
+        } finally {
+            try {
+                //conn.setAutoCommit(true);
+                if(prestmt!=null)
+                    prestmt.close();
+            } catch (SQLException sqle){
+                System.out.println("Error");
+                System.out.println(sqle.getMessage());
+            }
+        }
+        return A;
+    } 
+    ArrayList<Request> fetchrequests() {
+        // returns a list of all upcomming tests
+        PreparedStatement prestmt = null;
+        ResultSet res = null;
+        ArrayList<Request> A = new ArrayList<Request>();
+        Request temp;
+        try {
+            //conn.setAutoCommit(false);
+            String query = "select * from requests;";
+            System.out.println(query);
+            prestmt = conn.prepareStatement(query);
+            res = prestmt.executeQuery();
+            while(res.next()){
+                temp = new Request();
+                temp.userid = res.getString(1);
+                temp.pass = res.getString(2);
+                temp.name = res.getString(3);
+                temp.designation = res.getString(4);
+                A.add(temp);
+            }
+            // conn.commit();
+            //print(res);
+            System.out.println("Statement excetued Successfully");
+            
+        } catch (SQLException sqle){
+            System.out.println("Statement not excetued");
+            /*
+            try {
+                conn.rollback();
+                System.out.println("Rollback successful");
+                 
+            } catch (SQLException sqle1){
+                System.out.println("Error");
+                System.out.println(sqle1.getMessage());
+            }
+            */
+            System.out.println(sqle.getMessage());
+            
+        } finally {
+            try {
+                //conn.setAutoCommit(true);
+                if(prestmt!=null)
+                    prestmt.close();
+            } catch (SQLException sqle){
+                System.out.println("Error");
+                System.out.println(sqle.getMessage());
+            }
+        }
+        return A;
     }
 }

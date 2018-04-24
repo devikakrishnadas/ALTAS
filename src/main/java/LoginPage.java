@@ -148,7 +148,14 @@ public class LoginPage extends javax.swing.JFrame {
         // TODO add your handling code here:
         String usr = UsernameField.getText();
         String pwd = PasswordField.getText();
+        if(usr.equals("admin")) {
+            if(pwd.equals("admin")) {
+                this.setVisible(false);
+                new AdminUI(prev).setVisible(true);
+            }
+        }
 //        System.out.println("Usr "+ usr + " pwd " + pwd);
+        else {
         try {
             //connect to database
             Class.forName("org.postgresql.Driver");            
@@ -178,7 +185,8 @@ public class LoginPage extends javax.swing.JFrame {
             new FacultyHomePage(usr,prev).setVisible(true);
         }
         else{
-            //Second Sprint
+            new ExamineeUI(prev).setVisible(true);
+        }
         }
 //        this.dispose();
         

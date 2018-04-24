@@ -25,8 +25,10 @@ public class AddFileToDB {
     }
     
     private void AddFile(String path,String Q_ID) throws UnknownHostException, IOException {
-        MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://admin:admin@ds255889.mlab.com:55889/altasdb"));
-        DB db = mongo.getDB("altasdb");
+        //MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://admin:admin@ds255889.mlab.com:55889/altasdb"));
+        //DB db = mongo.getDB("altasdb");
+        ConnectDB connection = new ConnectDB();
+        DB db = connection.connectMongo();
         GridFS gridFs = new GridFS(db);
         GridFSInputFile gridFsInputFile = gridFs.createFile(new File(path));
         gridFsInputFile.setFilename(String.valueOf(Q_ID));
