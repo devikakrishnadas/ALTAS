@@ -20,11 +20,11 @@ import java.net.UnknownHostException;
 
 public class AddFileToDB {
     
-    public AddFileToDB(String path,long Q_ID) throws IOException{
+    public AddFileToDB(String path,String Q_ID) throws IOException{
         AddFile(path,Q_ID);
     }
     
-    private void AddFile(String path,long Q_ID) throws UnknownHostException, IOException {
+    private void AddFile(String path,String Q_ID) throws UnknownHostException, IOException {
         MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://admin:admin@ds255889.mlab.com:55889/altasdb"));
         DB db = mongo.getDB("altasdb");
         GridFS gridFs = new GridFS(db);

@@ -25,16 +25,29 @@ public class AddQuestion extends javax.swing.JFrame {
     /**
      * Creates new form AddQuestion
      */
-    CreateNewTest prev;
+    
     FacultyHomePage facultyHomePage;
 //    ArrayList<File> Questions = new ArrayList<>();
-    long TestID;
+    String TestID;
     MongoClient mongo;
-    public AddQuestion(FacultyHomePage facultyHomePage,CreateNewTest obj,long TestID) {
-        prev = obj;
+    String questionPath;
+    long count=1;
+    public AddQuestion(FacultyHomePage facultyHomePage,String TestID) {
         initComponents();
+//        this.count++;
+        this.questionPath="";
         this.TestID = TestID;
         this.facultyHomePage=facultyHomePage;
+    }
+    
+    public String getQuestionPath(){
+        return questionPath;
+    }
+    public long getQuestionCount(){
+        return count;
+    }
+    public void incQuestionCount(){
+        count++;
     }
 
     /**
@@ -51,12 +64,7 @@ public class AddQuestion extends javax.swing.JFrame {
         jPopupMenu1 = new javax.swing.JPopupMenu();
         AddProblemStatementButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        AddTestCaseButton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        ShowQuestionPanel = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
         DoneButton = new javax.swing.JButton();
 
         jMenu1.setText("jMenu1");
@@ -72,20 +80,8 @@ public class AddQuestion extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Problem Statement");
-
-        jLabel2.setText("Add Test Cases");
-
-        AddTestCaseButton.setText("Add");
-        AddTestCaseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddTestCaseButtonActionPerformed(evt);
-            }
-        });
-
-        jScrollPane1.setViewportView(ShowQuestionPanel);
-
-        jButton1.setText("Add Problem");
 
         DoneButton.setText("Done");
         DoneButton.addActionListener(new java.awt.event.ActionListener() {
@@ -100,64 +96,35 @@ public class AddQuestion extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(AddProblemStatementButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(AddTestCaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(26, 26, 26))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(139, 139, 139)
-                        .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(164, 164, 164)
-                        .addComponent(DoneButton)))
+                        .addComponent(DoneButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(131, 131, 131)
+                        .addComponent(AddProblemStatementButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 56, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(AddProblemStatementButton)
-                    .addComponent(AddTestCaseButton))
-                .addGap(15, 15, 15)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(AddProblemStatementButton, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(DoneButton)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void AddTestCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddTestCaseButtonActionPerformed
-        // TODO add your handling code here:
-        AddTestCase adt = new AddTestCase(this);
-        adt.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_AddTestCaseButtonActionPerformed
 
     private void AddProblemStatementButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddProblemStatementButtonActionPerformed
         // TODO add your handling code here:
@@ -167,37 +134,29 @@ public class AddQuestion extends javax.swing.JFrame {
         Component frame = null;
         showOpenDialog = jfc.showOpenDialog(frame);
         File file = jfc.getSelectedFile();
-        String path=file.getAbsolutePath();
-        System.out.println(path);
-        long Q_ID=TestID*10+1;
-        try {
-            AddFileToDB addFileToDB = new AddFileToDB(path,Q_ID);
-        } catch (IOException ex) {
-            Logger.getLogger(AddQuestion.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.questionPath=file.getAbsolutePath();
+        //AddFileToDB addFileToDB = new AddFileToDB(path,Q_ID);
+        this.setVisible(false);
+        new AddTestCase(this,facultyHomePage,TestID).setVisible(true);
     }//GEN-LAST:event_AddProblemStatementButtonActionPerformed
 
     private void DoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoneButtonActionPerformed
         // TODO add your handling code here:
-        prev.setVisible(false);
-        facultyHomePage.setVisible(true);
-        this.dispose();
+       // prev.setVisible(false);
+        //facultyHomePage.setVisible(true);
+        //this.dispose();
 //        new FacultyHomePage().setVisible(true);
+       
     }//GEN-LAST:event_DoneButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddProblemStatementButton;
-    private javax.swing.JButton AddTestCaseButton;
     private javax.swing.JButton DoneButton;
-    private javax.swing.JList<String> ShowQuestionPanel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JPopupMenu jPopupMenu1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }

@@ -36,22 +36,22 @@ public class CreateNewTest extends javax.swing.JFrame {
     private ArrayList <File>  Output = new ArrayList<>();
     private String Uname;
     private Component frame;
-    private long TestID;
+    private String TestID;
 
     /**
      * Creates new form CreateNewTest
      * @param username
      */
-    FacultyHomePage prev;
+    FacultyHomePage facultyHomePage;
     public CreateNewTest(String username,FacultyHomePage prev) {
         Uname = username;
-        TestID = System.nanoTime();
+        TestID = Long.toString(System.nanoTime());
         initComponents();
-        this.prev=prev;
+        this.facultyHomePage=prev;
     }
     
     // On clicking edit on ViewUpcommingTest page
-    public CreateNewTest(String username,long testid) {
+    public CreateNewTest(String username,String testid) {
         Uname = username;
         TestID = testid;
         initComponents(); 
@@ -74,7 +74,6 @@ public class CreateNewTest extends javax.swing.JFrame {
         DurationHourField = new javax.swing.JTextField();
         DurationMinField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        SubmitButton = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         DateField = new javax.swing.JTextField();
         TimeField = new javax.swing.JTextField();
@@ -123,13 +122,6 @@ public class CreateNewTest extends javax.swing.JFrame {
 
         jLabel4.setText(":");
 
-        SubmitButton.setText("Submit");
-        SubmitButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SubmitButtonActionPerformed(evt);
-            }
-        });
-
         jLabel6.setText("Date");
 
         DateField.setText("yyyy-mm-dd");
@@ -169,32 +161,27 @@ public class CreateNewTest extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(HomeButton))
+                        .addGap(68, 68, 68)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(HomeButton))
-                                .addGap(68, 68, 68)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(DurationHourField)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(DurationMinField, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(9, 9, 9))
-                                    .addComponent(DateField)
-                                    .addComponent(TestNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                                    .addComponent(TimeField)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(190, 190, 190)
-                        .addComponent(SubmitButton)))
+                                .addComponent(DurationHourField)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(DurationMinField, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(9, 9, 9))
+                            .addComponent(DateField)
+                            .addComponent(TestNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                            .addComponent(TimeField))))
                 .addGap(74, 74, 74))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -226,18 +213,11 @@ public class CreateNewTest extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NextButton)
                     .addComponent(HomeButton))
-                .addGap(26, 26, 26)
-                .addComponent(SubmitButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_SubmitButtonActionPerformed
 
     private void DateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DateFieldActionPerformed
         // TODO add your handling code here:
@@ -274,13 +254,13 @@ public class CreateNewTest extends javax.swing.JFrame {
             Logger.getLogger(CreateNewTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.setVisible(false);
-        new AddQuestion(prev,this,TestID).setVisible(true);
+        new AddQuestion(facultyHomePage,TestID).setVisible(true);
     }//GEN-LAST:event_NextButtonActionPerformed
 
     private void HomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeButtonActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        prev.setVisible(true);
+        facultyHomePage.setVisible(true);
     }//GEN-LAST:event_HomeButtonActionPerformed
 
     private void TestNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TestNameFieldActionPerformed
@@ -350,7 +330,6 @@ public class CreateNewTest extends javax.swing.JFrame {
     private javax.swing.JTextField DurationMinField;
     private javax.swing.JButton HomeButton;
     private javax.swing.JButton NextButton;
-    private javax.swing.JButton SubmitButton;
     private javax.swing.JTextField TestNameField;
     private javax.swing.JTextField TimeField;
     private javax.swing.JLabel jLabel1;
