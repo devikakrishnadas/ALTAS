@@ -28,22 +28,23 @@ public class AddOutput extends javax.swing.JFrame {
     FacultyHomePage facultyHomePage;
     String TestID;
     String outputPath;
-    long count=0;
+    //long count=1;
     
     public AddOutput() {
         initComponents();
     }
 
-    AddOutput(AddTestCase aThis, AddQuestion addQuestion, FacultyHomePage facultyHomePage, String TestID) {
+    public AddOutput(AddTestCase aThis, AddQuestion addQuestion, FacultyHomePage facultyHomePage, String TestID) {
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
        this.addTestCase=aThis;
        this.addQuestion=addQuestion;
        this.facultyHomePage=facultyHomePage;
        this.TestID=TestID;
        this.outputPath="";
-       this.count++;
+//       this.count++;
        initComponents();
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -103,65 +104,64 @@ public class AddOutput extends javax.swing.JFrame {
         Component frame = null;
         showOpenDialog = jfc.showOpenDialog(frame);
         File file = jfc.getSelectedFile();
-        this.outputPath=file.getAbsolutePath();
+        outputPath=file.getAbsolutePath();
+        
+        if(addTestCase.getTestCount()==1){
         try {
-            AddFileToDB addQue = new AddFileToDB(addQuestion.getQuestionPath(),TestID+"que"+Long.toString(addQuestion.getQuestionCount()));
+                AddFileToDB addQue = new AddFileToDB(addQuestion.getQuestionPath(),TestID+"que"+Long.toString(addQuestion.getQuestionCount()));
+            } catch (IOException ex) {
+                Logger.getLogger(AddOutput.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        try {
+            AddFileToDB addTest = new AddFileToDB(addTestCase.getTestCasePath(),TestID+"que"+Long.toString(addQuestion.getQuestionCount())+"inp"+Long.toString(addTestCase.getTestCount()));
         } catch (IOException ex) {
             Logger.getLogger(AddOutput.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            AddFileToDB addTest = new AddFileToDB(addTestCase.getTestCasePath(),TestID+"que"+Long.toString(addQuestion.getQuestionCount())+"inp"+Long.toString(this.count));
-        } catch (IOException ex) {
-            Logger.getLogger(AddOutput.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            AddFileToDB addOut = new AddFileToDB(this.outputPath,TestID+"que"+Long.toString(addQuestion.getQuestionCount())+"out"+Long.toString(this.count));
+            AddFileToDB addOut = new AddFileToDB(this.outputPath,TestID+"que"+Long.toString(addQuestion.getQuestionCount())+"out"+Long.toString(addTestCase.getTestCount()));
         } catch (IOException ex) {
             Logger.getLogger(AddOutput.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        
-
-        
-        
-        this.dispose();
-        new MoreTestCase(facultyHomePage,addQuestion,TestID).setVisible(true);
+        this.setVisible(false);
+        new MoreTestCase(facultyHomePage,addQuestion,addTestCase,this,TestID).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddOutput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddOutput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddOutput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddOutput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AddOutput().setVisible(true);
-            }
-        });
-    }
+//
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(AddOutput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(AddOutput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(AddOutput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(AddOutput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new AddOutput().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

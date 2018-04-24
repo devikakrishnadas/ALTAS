@@ -31,20 +31,23 @@ public class AddQuestion extends javax.swing.JFrame {
     String TestID;
     MongoClient mongo;
     String questionPath;
-    long count=0;
+    long count=1;
     public AddQuestion(FacultyHomePage facultyHomePage,String TestID) {
         initComponents();
-        this.count++;
+//        this.count++;
         this.questionPath="";
         this.TestID = TestID;
         this.facultyHomePage=facultyHomePage;
     }
     
     public String getQuestionPath(){
-        return this.questionPath;
+        return questionPath;
     }
     public long getQuestionCount(){
-        return this.count;
+        return count;
+    }
+    public void incQuestionCount(){
+        count++;
     }
 
     /**
@@ -133,7 +136,7 @@ public class AddQuestion extends javax.swing.JFrame {
         File file = jfc.getSelectedFile();
         this.questionPath=file.getAbsolutePath();
         //AddFileToDB addFileToDB = new AddFileToDB(path,Q_ID);
-        this.dispose();
+        this.setVisible(false);
         new AddTestCase(this,facultyHomePage,TestID).setVisible(true);
     }//GEN-LAST:event_AddProblemStatementButtonActionPerformed
 

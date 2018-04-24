@@ -15,15 +15,20 @@ public class MoreTestCase extends javax.swing.JFrame {
      */
     FacultyHomePage facultyHomePage;
     AddQuestion addQuestion;
+    AddTestCase addTestCase;
+    AddOutput addOutput;
+    
     String TestId;
     public MoreTestCase() {
         initComponents();
     }
 
-    public MoreTestCase(FacultyHomePage facultyHomePage,AddQuestion addQuestion,String TestID) {
+    public MoreTestCase(FacultyHomePage facultyHomePage,AddQuestion addQuestion,AddTestCase addTestCase,AddOutput addOutput,String TestID) {
       //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
       this.facultyHomePage=facultyHomePage;
       this.addQuestion=addQuestion;
+      this.addTestCase=addTestCase;
+      this.addOutput=addOutput;
       this.TestId=TestID;
       initComponents();
     }
@@ -53,8 +58,18 @@ public class MoreTestCase extends javax.swing.JFrame {
         });
 
         jButton2.setText("Add New Question");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Done");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,7 +104,26 @@ public class MoreTestCase extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        this.dispose();
+        addTestCase.incTestCount();
+        addTestCase.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        addQuestion.incQuestionCount();
+        this.addQuestion.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        addQuestion.dispose();
+        addTestCase.dispose();
+        addOutput.dispose();
+        this.dispose();
+        this.facultyHomePage.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
