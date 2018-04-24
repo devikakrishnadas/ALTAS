@@ -1,3 +1,13 @@
+import com.mongodb.MongoClient;
+import java.awt.Component;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileSystemView;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -20,14 +30,21 @@ public class AddTestCase extends javax.swing.JFrame {
     FacultyHomePage facultyHomePage;
     AddQuestion addQuestion;
     String TestID;
+    String testCasePath;
     //AddQuestion
     public AddTestCase(AddQuestion aThis, FacultyHomePage facultyHomePage, String TestID) {
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
        this.facultyHomePage=facultyHomePage;
        this.addQuestion=aThis;
        this.TestID=TestID;
+       this.testCasePath="";
        initComponents();
     }
+    
+    public String getTestCasePath(){
+        return this.testCasePath;
+    }
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -82,6 +99,13 @@ public class AddTestCase extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        jfc.setMultiSelectionEnabled(false);
+        int showOpenDialog;
+        Component frame = null;
+        showOpenDialog = jfc.showOpenDialog(frame);
+        File file = jfc.getSelectedFile();
+        this.testCasePath=file.getAbsolutePath();
         this.dispose();
         new AddOutput(this,addQuestion,facultyHomePage,TestID).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed

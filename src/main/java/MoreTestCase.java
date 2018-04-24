@@ -13,14 +13,22 @@ public class MoreTestCase extends javax.swing.JFrame {
     /**
      * Creates new form MoreTestCase
      */
+    FacultyHomePage facultyHomePage;
+    AddQuestion addQuestion;
+    String TestId;
     public MoreTestCase() {
         initComponents();
     }
 
-    MoreTestCase(FacultyHomePage facultyHomePage, String TestID) {
+    public MoreTestCase(FacultyHomePage facultyHomePage,AddQuestion addQuestion,String TestID) {
       //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      this.facultyHomePage=facultyHomePage;
+      this.addQuestion=addQuestion;
+      this.TestId=TestID;
       initComponents();
     }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -38,6 +46,11 @@ public class MoreTestCase extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("Add New Test Case");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Add New Question");
 
@@ -73,6 +86,10 @@ public class MoreTestCase extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

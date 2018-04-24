@@ -30,10 +30,21 @@ public class AddQuestion extends javax.swing.JFrame {
 //    ArrayList<File> Questions = new ArrayList<>();
     String TestID;
     MongoClient mongo;
+    String questionPath;
+    long count=0;
     public AddQuestion(FacultyHomePage facultyHomePage,String TestID) {
         initComponents();
+        this.count++;
+        this.questionPath="";
         this.TestID = TestID;
         this.facultyHomePage=facultyHomePage;
+    }
+    
+    public String getQuestionPath(){
+        return this.questionPath;
+    }
+    public long getQuestionCount(){
+        return this.count;
     }
 
     /**
@@ -120,16 +131,10 @@ public class AddQuestion extends javax.swing.JFrame {
         Component frame = null;
         showOpenDialog = jfc.showOpenDialog(frame);
         File file = jfc.getSelectedFile();
-        String path=file.getAbsolutePath();
-        System.out.println(path);
-        String Q_ID=TestID+'1';
-        try {
-            AddFileToDB addFileToDB = new AddFileToDB(path,Q_ID);
-             this.dispose();
-             new AddTestCase(this,facultyHomePage,TestID).setVisible(true);
-        } catch (IOException ex) {
-            Logger.getLogger(AddQuestion.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.questionPath=file.getAbsolutePath();
+        //AddFileToDB addFileToDB = new AddFileToDB(path,Q_ID);
+        this.dispose();
+        new AddTestCase(this,facultyHomePage,TestID).setVisible(true);
     }//GEN-LAST:event_AddProblemStatementButtonActionPerformed
 
     private void DoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoneButtonActionPerformed

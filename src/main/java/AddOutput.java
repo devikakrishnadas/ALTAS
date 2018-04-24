@@ -1,3 +1,13 @@
+import com.mongodb.MongoClient;
+import java.awt.Component;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileSystemView;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -17,6 +27,8 @@ public class AddOutput extends javax.swing.JFrame {
     AddQuestion addQuestion;
     FacultyHomePage facultyHomePage;
     String TestID;
+    String outputPath;
+    long count=0;
     
     public AddOutput() {
         initComponents();
@@ -28,6 +40,8 @@ public class AddOutput extends javax.swing.JFrame {
        this.addQuestion=addQuestion;
        this.facultyHomePage=facultyHomePage;
        this.TestID=TestID;
+       this.outputPath="";
+       this.count++;
        initComponents();
     }
 
@@ -83,8 +97,35 @@ public class AddOutput extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        jfc.setMultiSelectionEnabled(false);
+        int showOpenDialog;
+        Component frame = null;
+        showOpenDialog = jfc.showOpenDialog(frame);
+        File file = jfc.getSelectedFile();
+        this.outputPath=file.getAbsolutePath();
+        try {
+            AddFileToDB addQue = new AddFileToDB(addQuestion.getQuestionPath(),TestID+"que"+Long.toString(addQuestion.getQuestionCount()));
+        } catch (IOException ex) {
+            Logger.getLogger(AddOutput.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            AddFileToDB addTest = new AddFileToDB(addTestCase.getTestCasePath(),TestID+"que"+Long.toString(addQuestion.getQuestionCount())+"inp"+Long.toString(this.count));
+        } catch (IOException ex) {
+            Logger.getLogger(AddOutput.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            AddFileToDB addOut = new AddFileToDB(this.outputPath,TestID+"que"+Long.toString(addQuestion.getQuestionCount())+"out"+Long.toString(this.count));
+        } catch (IOException ex) {
+            Logger.getLogger(AddOutput.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+
+        
+        
         this.dispose();
-        new MoreTestCase(facultyHomePage,TestID).setVisible(true);
+        new MoreTestCase(facultyHomePage,addQuestion,TestID).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
