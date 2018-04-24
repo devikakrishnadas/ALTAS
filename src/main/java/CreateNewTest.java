@@ -273,7 +273,8 @@ public class CreateNewTest extends javax.swing.JFrame {
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(CreateNewTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        this.setVisible(false);
+        new AddQuestion(prev,this,TestID).setVisible(true);
     }//GEN-LAST:event_NextButtonActionPerformed
 
     private void HomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeButtonActionPerformed

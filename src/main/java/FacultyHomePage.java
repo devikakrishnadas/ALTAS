@@ -20,6 +20,9 @@ public class FacultyHomePage extends javax.swing.JFrame {
         this.prev=prev;
         initComponents();
     }
+//    public FacultyHomePage(){
+//        initComponents();
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -100,7 +103,6 @@ public class FacultyHomePage extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setVisible(false);
         new CreateNewTest(Uname,this).setVisible(true);
-        this.setVisible(false);
     }//GEN-LAST:event_CreateNewTestButtonActionPerformed
 
     private void ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButtonActionPerformed

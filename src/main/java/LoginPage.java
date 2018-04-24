@@ -173,7 +173,7 @@ public class LoginPage extends javax.swing.JFrame {
             return;
         }
         //System.out.println("I am being executed idk why!");
-        this.dispose();
+        this.setVisible(false);
         if(stud == 0){
             new FacultyHomePage(usr,prev).setVisible(true);
         }

@@ -2,8 +2,11 @@
 import com.mongodb.MongoClient;
 import java.awt.Component;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
 
@@ -23,13 +26,15 @@ public class AddQuestion extends javax.swing.JFrame {
      * Creates new form AddQuestion
      */
     CreateNewTest prev;
-    ArrayList<File> Questions = new ArrayList<>();
+    FacultyHomePage facultyHomePage;
+//    ArrayList<File> Questions = new ArrayList<>();
     long TestID;
     MongoClient mongo;
-    public AddQuestion(CreateNewTest obj,long TestID) {
+    public AddQuestion(FacultyHomePage facultyHomePage,CreateNewTest obj,long TestID) {
         prev = obj;
         initComponents();
         this.TestID = TestID;
+        this.facultyHomePage=facultyHomePage;
     }
 
     /**
@@ -157,17 +162,27 @@ public class AddQuestion extends javax.swing.JFrame {
     private void AddProblemStatementButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddProblemStatementButtonActionPerformed
         // TODO add your handling code here:
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        jfc.setMultiSelectionEnabled(true);
+        jfc.setMultiSelectionEnabled(false);
         int showOpenDialog;
         Component frame = null;
         showOpenDialog = jfc.showOpenDialog(frame);
-        File[] file = jfc.getSelectedFiles();
-        Questions.addAll(Arrays.asList(file));
-        
+        File file = jfc.getSelectedFile();
+        String path=file.getAbsolutePath();
+        System.out.println(path);
+        long Q_ID=TestID*10+1;
+        try {
+            AddFileToDB addFileToDB = new AddFileToDB(path,Q_ID);
+        } catch (IOException ex) {
+            Logger.getLogger(AddQuestion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_AddProblemStatementButtonActionPerformed
 
     private void DoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoneButtonActionPerformed
         // TODO add your handling code here:
+        prev.setVisible(false);
+        facultyHomePage.setVisible(true);
+        this.dispose();
+//        new FacultyHomePage().setVisible(true);
     }//GEN-LAST:event_DoneButtonActionPerformed
 
 
