@@ -60,7 +60,7 @@ public class SearchModule {
         Test temp;
         try {
             String query = "select * from test where starttime > CURRENT_TIMESTAMP;";
-            System.out.println(query);
+            //System.out.println(query);
             prestmt = conn.prepareStatement(query);
             res = prestmt.executeQuery();
             while(res.next()){

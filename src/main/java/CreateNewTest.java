@@ -10,6 +10,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -233,26 +234,52 @@ public class CreateNewTest extends javax.swing.JFrame {
         String date = DateField.getText();
         String time = TimeField.getText();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime startTimet = LocalDateTime.parse(date+" "+time,dtf);
-        System.out.println(startTimet);
-        LocalDateTime endTimet = startTimet.plusHours(Integer.parseInt(DurationHourField.getText()));
-        endTimet = endTimet.plusMinutes(Integer.parseInt(DurationMinField.getText()));
+        LocalDateTime startTimet;
+        LocalDateTime endTimet; 
+        try{
+            startTimet = LocalDateTime.parse(date+" "+time,dtf);
+        }catch(DateTimeParseException dtpe){
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Incorrect Date or Time Format");
+            return;
+        }
+        try{
+            
+            endTimet = startTimet.plusHours(Integer.parseInt(DurationHourField.getText()));
+            endTimet = endTimet.plusMinutes(Integer.parseInt(DurationMinField.getText()));
+        }catch(NumberFormatException nfe){
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Incorrect format for duration");
+            return;
+        }
+        
         Timestamp startTime = Timestamp.valueOf(startTimet);
         Timestamp endTime = Timestamp.valueOf(endTimet);
         String TestName = TestNameField.getText();
-        try {            
-            Class.forName("org.postgresql.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:postgresql://elmer.db.elephantsql.com:5432/zmglkugx","zmglkugx","s8hW68DxJLftEUIiBRo5TGYuMKSYQtCt");
-            Map data = new HashMap();
-            AddTestModule atm = new AddTestModule(conn);
-            data.put("TestID",TestID);
-            data.put("starttime","'"+startTime+"'");
-            data.put("endTime","'"+endTime+"'");
-            data.put("TestName","'"+TestName+"'");
-            atm.AddToTest(data);
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(CreateNewTest.class.getName()).log(Level.SEVERE, null, ex);
+        Timestamp curTime = new Timestamp(System.currentTimeMillis());
+        try
+        {
+            if(curTime.after(startTime)){
+                throw new StartTimeException("Start time cannot be before the current time");
+            }
+        }catch(StartTimeException ste){
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Start time cannot be before the current time");
+            return;
         }
+        Connection conn = null;
+        ConnectDB DB = new ConnectDB();
+        DB.connect();
+        conn = DB.getconn();
+        
+        Map data = new HashMap();
+        AddTestModule atm = new AddTestModule(conn);
+        data.put("TestID",TestID);
+        data.put("starttime","'"+startTime+"'");
+        data.put("endTime","'"+endTime+"'");
+        data.put("TestName","'"+TestName+"'");
+        
+        atm.AddToTest(data);
         this.setVisible(false);
         new AddQuestion(facultyHomePage,TestID).setVisible(true);
     }//GEN-LAST:event_NextButtonActionPerformed

@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileSystemView;
 
 /*
@@ -65,7 +66,7 @@ public class AddQuestion extends javax.swing.JFrame {
         AddProblemStatementButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        DoneButton = new javax.swing.JButton();
+        CancelButton = new javax.swing.JButton();
 
         jMenu1.setText("jMenu1");
 
@@ -83,10 +84,10 @@ public class AddQuestion extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Problem Statement");
 
-        DoneButton.setText("Done");
-        DoneButton.addActionListener(new java.awt.event.ActionListener() {
+        CancelButton.setText("Cancel");
+        CancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DoneButtonActionPerformed(evt);
+                CancelButtonActionPerformed(evt);
             }
         });
 
@@ -99,7 +100,7 @@ public class AddQuestion extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(164, 164, 164)
-                        .addComponent(DoneButton))
+                        .addComponent(CancelButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(131, 131, 131)
                         .addComponent(AddProblemStatementButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -119,7 +120,7 @@ public class AddQuestion extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(DoneButton)
+                .addComponent(CancelButton)
                 .addContainerGap())
         );
 
@@ -133,26 +134,30 @@ public class AddQuestion extends javax.swing.JFrame {
         int showOpenDialog;
         Component frame = null;
         showOpenDialog = jfc.showOpenDialog(frame);
-        File file = jfc.getSelectedFile();
-        this.questionPath=file.getAbsolutePath();
+        File file=null;
+        try{
+            file = jfc.getSelectedFile();
+            this.questionPath=file.getAbsolutePath();
+        }catch(NullPointerException npe){
+            
+            JOptionPane.showMessageDialog(frame, "No File Selected");
+            return;
+        }
         //AddFileToDB addFileToDB = new AddFileToDB(path,Q_ID);
         this.setVisible(false);
         new AddTestCase(this,facultyHomePage,TestID).setVisible(true);
     }//GEN-LAST:event_AddProblemStatementButtonActionPerformed
 
-    private void DoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoneButtonActionPerformed
-        // TODO add your handling code here:
-       // prev.setVisible(false);
-        //facultyHomePage.setVisible(true);
-        //this.dispose();
-//        new FacultyHomePage().setVisible(true);
-       
-    }//GEN-LAST:event_DoneButtonActionPerformed
+    private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
+       // TODO add your handling code here:
+       this.dispose();
+       facultyHomePage.setVisible(true);
+    }//GEN-LAST:event_CancelButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddProblemStatementButton;
-    private javax.swing.JButton DoneButton;
+    private javax.swing.JButton CancelButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

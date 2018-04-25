@@ -16,6 +16,9 @@ import java.sql.*;
 import java.util.*;
 import java.text.*;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.postgresql.util.PSQLException;
 public class ConnectDB {
     private Connection conn;
     void ConnectDB() {
@@ -35,7 +38,7 @@ public class ConnectDB {
             }
             conn = DriverManager.getConnection("jdbc:postgresql://"+DB.phost+":"+DB.pport+"/"+DB.pdbname,DB.puser, DB.ppass);
             System.out.println("Opened database successfully");
-        } catch (SQLException sqle) {
+        } catch (PSQLException sqle) {
             System.out.println("Could not connect to Database");
             System.out.println(sqle.getMessage());
             return 1;
@@ -43,6 +46,10 @@ public class ConnectDB {
             System.out.println("jdbc driver not found");
             System.out.println(cnfe.getMessage());
             return 2;
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnectDB.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Could not connect to Database");
+            return 3;
         }
         return 0;
     }

@@ -157,23 +157,21 @@ public class LoginPage extends javax.swing.JFrame {
 //        System.out.println("Usr "+ usr + " pwd " + pwd);
         else {
         try {
-            //connect to database
-            Class.forName("org.postgresql.Driver");            
+            //connect to database           
             Connection conn = null;
-            conn = DriverManager.getConnection("jdbc:postgresql://elmer.db.elephantsql.com:5432/zmglkugx","zmglkugx","s8hW68DxJLftEUIiBRo5TGYuMKSYQtCt");
-            SearchModule s = new SearchModule();
+            ConnectDB DB=new ConnectDB();
+            DB.connect();
+            conn = DB.getconn();
+            SearchModule s= new SearchModule();
             s.setconn(conn);
             int res = s.Login(usr,pwd,stud);
-            conn.close();
+            DB.disconnect();
             if(res<1) {
                 
-                Exception error = new Exception("Incorrect Username/Password");
-                throw error;
+                IncorrectCredentialException cred= new IncorrectCredentialException("Incorrect Username/Password");
+                throw cred;
             }
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
-            return;
-        } catch (Exception ex) {
+        } catch (IncorrectCredentialException er) {
             Component frame = null;
             JOptionPane.showMessageDialog(frame, "Incorrect Username/Password");
             //Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
