@@ -2,12 +2,21 @@ import com.mongodb.*;
 
 import java.awt.Component;
 import java.io.File;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileSystemView;
@@ -28,22 +37,22 @@ public class CreateNewTest extends javax.swing.JFrame {
     private ArrayList <File>  Output = new ArrayList<>();
     private String Uname;
     private Component frame;
-    private long TestID;
+    private String TestID;
 
     /**
      * Creates new form CreateNewTest
      * @param username
      */
-    FacultyHomePage prev;
+    FacultyHomePage facultyHomePage;
     public CreateNewTest(String username,FacultyHomePage prev) {
         Uname = username;
-        TestID = System.nanoTime();
+        TestID = Long.toString(System.nanoTime());
         initComponents();
-        this.prev=prev;
+        this.facultyHomePage=prev;
     }
     
     // On clicking edit on ViewUpcommingTest page
-    public CreateNewTest(String username,long testid) {
+    public CreateNewTest(String username,String testid) {
         Uname = username;
         TestID = testid;
         initComponents(); 
@@ -62,15 +71,14 @@ public class CreateNewTest extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         TestNameField = new javax.swing.JTextField();
-        AddQuestionButton = new javax.swing.JButton();
+        NextButton = new javax.swing.JButton();
         DurationHourField = new javax.swing.JTextField();
         DurationMinField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        SubmitButton = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         DateField = new javax.swing.JTextField();
         TimeField = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        HomeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,10 +100,10 @@ public class CreateNewTest extends javax.swing.JFrame {
             }
         });
 
-        AddQuestionButton.setText("--->");
-        AddQuestionButton.addActionListener(new java.awt.event.ActionListener() {
+        NextButton.setText("--->");
+        NextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddQuestionButtonActionPerformed(evt);
+                NextButtonActionPerformed(evt);
             }
         });
 
@@ -114,13 +122,6 @@ public class CreateNewTest extends javax.swing.JFrame {
         });
 
         jLabel4.setText(":");
-
-        SubmitButton.setText("Submit");
-        SubmitButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SubmitButtonActionPerformed(evt);
-            }
-        });
 
         jLabel6.setText("Date");
 
@@ -149,10 +150,10 @@ public class CreateNewTest extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Home");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        HomeButton.setText("Home");
+        HomeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                HomeButtonActionPerformed(evt);
             }
         });
 
@@ -161,36 +162,31 @@ public class CreateNewTest extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(HomeButton))
+                        .addGap(68, 68, 68)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jButton1))
-                                .addGap(68, 68, 68)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(DurationHourField)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(DurationMinField, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(9, 9, 9))
-                                    .addComponent(DateField)
-                                    .addComponent(TestNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                                    .addComponent(TimeField)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(190, 190, 190)
-                        .addComponent(SubmitButton)))
+                                .addComponent(DurationHourField)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(DurationMinField, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(9, 9, 9))
+                            .addComponent(DateField)
+                            .addComponent(TestNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                            .addComponent(TimeField))))
                 .addGap(74, 74, 74))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(AddQuestionButton)
+                .addComponent(NextButton)
                 .addGap(36, 36, 36))
         );
         layout.setVerticalGroup(
@@ -216,23 +212,13 @@ public class CreateNewTest extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(AddQuestionButton)
-                    .addComponent(jButton1))
-                .addGap(26, 26, 26)
-                .addComponent(SubmitButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(NextButton)
+                    .addComponent(HomeButton))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed
-        // TODO add your handling code here:
-        Date date = Date.valueOf(DateField.getText());
-        java.sql.Time jsqlT = java.sql.Time.valueOf( TimeField.getText() );
-        
-        
-    }//GEN-LAST:event_SubmitButtonActionPerformed
 
     private void DateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DateFieldActionPerformed
         // TODO add your handling code here:
@@ -242,19 +228,67 @@ public class CreateNewTest extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_TimeFieldActionPerformed
 
-    private void AddQuestionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddQuestionButtonActionPerformed
+    private void NextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextButtonActionPerformed
         // TODO add your handling code here:
         //ArrayList<File> ques = new ArrayList<File>();
-        AddQuestion a = new AddQuestion();
-        a.setVisible(true);
+        String date = DateField.getText();
+        String time = TimeField.getText();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime startTimet;
+        LocalDateTime endTimet; 
+        try{
+            startTimet = LocalDateTime.parse(date+" "+time,dtf);
+        }catch(DateTimeParseException dtpe){
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Incorrect Date or Time Format");
+            return;
+        }
+        try{
+            
+            endTimet = startTimet.plusHours(Integer.parseInt(DurationHourField.getText()));
+            endTimet = endTimet.plusMinutes(Integer.parseInt(DurationMinField.getText()));
+        }catch(NumberFormatException nfe){
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Incorrect format for duration");
+            return;
+        }
+        
+        Timestamp startTime = Timestamp.valueOf(startTimet);
+        Timestamp endTime = Timestamp.valueOf(endTimet);
+        String TestName = TestNameField.getText();
+        Timestamp curTime = new Timestamp(System.currentTimeMillis());
+        try
+        {
+            if(curTime.after(startTime)){
+                throw new StartTimeException("Start time cannot be before the current time");
+            }
+        }catch(StartTimeException ste){
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Start time cannot be before the current time");
+            return;
+        }
+        Connection conn = null;
+        ConnectDB DB = new ConnectDB();
+        DB.connect();
+        conn = DB.getconn();
+        
+        Map data = new HashMap();
+        AddTestModule atm = new AddTestModule(conn);
+        data.put("TestID",TestID);
+        data.put("starttime","'"+startTime+"'");
+        data.put("endTime","'"+endTime+"'");
+        data.put("TestName","'"+TestName+"'");
+        
+        atm.AddToTest(data);
         this.setVisible(false);
-    }//GEN-LAST:event_AddQuestionButtonActionPerformed
+        new AddQuestion(facultyHomePage,TestID).setVisible(true);
+    }//GEN-LAST:event_NextButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void HomeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeButtonActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        prev.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        facultyHomePage.setVisible(true);
+    }//GEN-LAST:event_HomeButtonActionPerformed
 
     private void TestNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TestNameFieldActionPerformed
         // TODO add your handling code here:
@@ -318,14 +352,13 @@ public class CreateNewTest extends javax.swing.JFrame {
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AddQuestionButton;
     private javax.swing.JTextField DateField;
     private javax.swing.JTextField DurationHourField;
     private javax.swing.JTextField DurationMinField;
-    private javax.swing.JButton SubmitButton;
+    private javax.swing.JButton HomeButton;
+    private javax.swing.JButton NextButton;
     private javax.swing.JTextField TestNameField;
     private javax.swing.JTextField TimeField;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

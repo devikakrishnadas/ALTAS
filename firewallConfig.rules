@@ -1,0 +1,15 @@
+*filter
+:INPUT DROP
+:FORWARD DROP
+:OUTPUT DROP
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -i lo -m comment --comment "Allow loopback connections" -j ACCEPT
+-A OUTPUT -p udp --dport 53 -j ACCEPT
+-A INPUT -p icmp -m comment --comment "Allow Ping to work as expected" -j ACCEPT
+-A INPUT -s elmer.db.elephantsql.com -j ACCEPT
+-A OUTPUT -d elmer.db.elephantsql.com -j ACCEPT
+-A INPUT -s ds255889.mlab.com -j ACCEPT
+-A OUTPUT -d ds255889.mlab.com -j ACCEPT
+-A INPUT -s amrita.edu -j ACCEPT
+-A OUTPUT -d amrita.edu -j ACCEPT
+COMMIT

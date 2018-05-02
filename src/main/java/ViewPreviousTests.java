@@ -1,5 +1,12 @@
 
 import java.awt.Component;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /*
@@ -18,9 +25,33 @@ public class ViewPreviousTests extends javax.swing.JFrame {
      * Creates new form ViewPreviousTests
      */
     FacultyHomePage prev;
+    ConnectDB DB;
+    Connection conn;
     public ViewPreviousTests(FacultyHomePage prev) {
         this.prev=prev;
+        DB = new ConnectDB();
+        DB.connect();
+        conn = DB.getconn();
         initComponents();
+        String query = "SELECT * FROM TEST WHERE ENDTIME < CURRENT_TIMESTAMP;";
+        PreparedStatement prestmt;
+        ResultSet res = null;
+        try {
+            prestmt = conn.prepareStatement(query);
+            res = prestmt.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewPreviousTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            ArrayList<String> testNames = new ArrayList<String>();
+            while(res.next()){
+                testNames.add(res.getString(4));
+            }
+            String [] temp = testNames.toArray(new String[testNames.size()]);
+            TestList.setListData(temp);
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewPreviousTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -119,6 +150,26 @@ public class ViewPreviousTests extends javax.swing.JFrame {
 
     private void TestListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_TestListValueChanged
         // TODO add your handling code here:
+        
+        /*String query = "SELECT * FROM TEST WHERE ENDTIME < CURRENT_TIMESTAMP;";
+        PreparedStatement prestmt;
+        ResultSet res = null;
+        try {
+            prestmt = conn.prepareStatement(query);
+            res = prestmt.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewPreviousTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            ArrayList<String> testNames = new ArrayList<String>();
+            while(res.next()){
+                testNames.add(res.getString(4));
+            }
+            String [] temp = testNames.toArray(new String[testNames.size()]);
+            TestList.setListData(temp);
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewPreviousTests.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
     }//GEN-LAST:event_TestListValueChanged
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed

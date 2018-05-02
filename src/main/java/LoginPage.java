@@ -148,37 +148,43 @@ public class LoginPage extends javax.swing.JFrame {
         // TODO add your handling code here:
         String usr = UsernameField.getText();
         String pwd = PasswordField.getText();
+        if(usr.equals("admin")) {
+            if(pwd.equals("admin")) {
+                this.setVisible(false);
+                new AdminUI(prev).setVisible(true);
+            }
+        }
 //        System.out.println("Usr "+ usr + " pwd " + pwd);
+        else {
         try {
-            //connect to database
-            Class.forName("org.postgresql.Driver");            
+            //connect to database           
             Connection conn = null;
-            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/altasdb","postgres","postgres");
-            SearchModule s = new SearchModule();
+            ConnectDB DB=new ConnectDB();
+            DB.connect();
+            conn = DB.getconn();
+            SearchModule s= new SearchModule();
             s.setconn(conn);
             int res = s.Login(usr,pwd,stud);
-            conn.close();
+            DB.disconnect();
             if(res<1) {
                 
-                Exception error = new Exception("Incorrect Username/Password");
-                throw error;
+                IncorrectCredentialException cred= new IncorrectCredentialException("Incorrect Username/Password");
+                throw cred;
             }
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
-            return;
-        } catch (Exception ex) {
+        } catch (IncorrectCredentialException er) {
             Component frame = null;
             JOptionPane.showMessageDialog(frame, "Incorrect Username/Password");
             //Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
         //System.out.println("I am being executed idk why!");
-        this.dispose();
+        this.setVisible(false);
         if(stud == 0){
             new FacultyHomePage(usr,prev).setVisible(true);
         }
         else{
-            //Second Sprint
+            new ExamineeUI(prev).setVisible(true);
+        }
         }
 //        this.dispose();
         
