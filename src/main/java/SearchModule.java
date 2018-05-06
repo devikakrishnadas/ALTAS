@@ -152,4 +152,53 @@ public class SearchModule {
         }
         return A;
     }
+    Examinee fetchExamineeDetails() {
+        PreparedStatement prestmt = null;
+        ResultSet res = null;
+        ArrayList<Request> A = new ArrayList<Request>();
+        Request temp;
+        try {
+            //conn.setAutoCommit(false);
+            String query = "select * from requests;";
+            System.out.println(query);
+            prestmt = conn.prepareStatement(query);
+            res = prestmt.executeQuery();
+            while(res.next()){
+                temp = new Request();
+                temp.userid = res.getString(1);
+                temp.pass = res.getString(2);
+                temp.name = res.getString(3);
+                temp.designation = res.getString(4);
+                A.add(temp);
+            }
+            // conn.commit();
+            //print(res);
+            System.out.println("Statement excetued Successfully");
+            
+        } catch (SQLException sqle){
+            System.out.println("Statement not excetued");
+            /*
+            try {
+                conn.rollback();
+                System.out.println("Rollback successful");
+                 
+            } catch (SQLException sqle1){
+                System.out.println("Error");
+                System.out.println(sqle1.getMessage());
+            }
+            */
+            System.out.println(sqle.getMessage());
+            
+        } finally {
+            try {
+                //conn.setAutoCommit(true);
+                if(prestmt!=null)
+                    prestmt.close();
+            } catch (SQLException sqle){
+                System.out.println("Error");
+                System.out.println(sqle.getMessage());
+            }
+        }
+        return A; 
+    }
 }
