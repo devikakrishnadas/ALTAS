@@ -152,25 +152,28 @@ public class SearchModule {
         }
         return A;
     }
-    Examinee fetchExamineeDetails() {
+    Examinee fetchExamineeDetails(String username) {
         PreparedStatement prestmt = null;
         ResultSet res = null;
-        ArrayList<Request> A = new ArrayList<Request>();
-        Request temp;
+        Examinee temp = new Examinee();
         try {
             //conn.setAutoCommit(false);
-            String query = "select * from requests;";
+            String query = "select name from userlist where username = ?;";
             System.out.println(query);
             prestmt = conn.prepareStatement(query);
+            prestmt.setString(1,username);
             res = prestmt.executeQuery();
-            while(res.next()){
-                temp = new Request();
-                temp.userid = res.getString(1);
-                temp.pass = res.getString(2);
-                temp.name = res.getString(3);
-                temp.designation = res.getString(4);
-                A.add(temp);
-            }
+            res.next();
+            temp.name = res.getString(1);
+            query = "select * from registeredstudents where username = ?;";
+            System.out.println(query);
+            prestmt = conn.prepareStatement(query);
+            prestmt.setString(1,username);
+            res = prestmt.executeQuery();
+            res.next();
+            temp.username = res.getString(1);
+            temp.Class = res.getString(2);
+            temp.Branch = res.getString(3);
             // conn.commit();
             //print(res);
             System.out.println("Statement excetued Successfully");
@@ -199,6 +202,6 @@ public class SearchModule {
                 System.out.println(sqle.getMessage());
             }
         }
-        return A; 
+        return temp; 
     }
 }

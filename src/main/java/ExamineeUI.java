@@ -17,8 +17,10 @@ public class ExamineeUI extends javax.swing.JFrame {
      */
     public ExamineeUI(MainWindow p,String name) {
         initComponents();
+        user = new Examinee();
         this.prev=p;
-        this.user=name;
+        this.user.username=name;
+        this.user.name="";
     }
 
     /**
@@ -75,17 +77,9 @@ public class ExamineeUI extends javax.swing.JFrame {
 
         jLabel2.setText("Name : ");
 
-        username.setText("jLabel3");
-
-        name.setText("jLabel4");
-
         jLabel3.setText("Class :");
 
         jLabel4.setText("Branch :");
-
-        Class.setText("jLabel5");
-
-        Branch.setText("jLabel6");
 
         jLabel5.setText("WELCOME");
 
@@ -118,6 +112,11 @@ public class ExamineeUI extends javax.swing.JFrame {
 
         Update.setText("Update");
         Update.setEnabled(false);
+        Update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UpdateActionPerformed(evt);
+            }
+        });
 
         Cancel.setText("Cancel");
         Cancel.setEnabled(false);
@@ -372,12 +371,62 @@ public class ExamineeUI extends javax.swing.JFrame {
 
     private void ProfilePanelComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_ProfilePanelComponentShown
         // TODO add your handling code here:
+        if(!this.user.name.equals("")) {
+            return;
+        }
+        int retStat;
+        ConnectDB DB = new ConnectDB();
+        retStat = DB.connect();
+        if(retStat == 1) {
+            javax.swing.JOptionPane.showMessageDialog(this,"Couldn't connect to DB");
+            return;
+        }
+        else if(retStat == 2) {
+            javax.swing.JOptionPane.showMessageDialog(this,"No JDBC driver");
+            return;
+        }
+        SearchModule SER = new SearchModule();
+        SER.setconn(DB.getconn());
+        user = SER.fetchExamineeDetails(user.username);
+        username.setText(user.username);
+        name.setText(user.name);
+        Class.setText(user.Class);
+        Branch.setText(user.Branch);
+        DB.disconnect();
         
     }//GEN-LAST:event_ProfilePanelComponentShown
+
+    private void UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateActionPerformed
+        // TODO add your handling code here:
+        String pass = new String(jPasswordField1.getPassword());
+        int retStat;
+        ConnectDB DB = new ConnectDB();
+        retStat = DB.connect();
+        if(retStat == 1) {
+            javax.swing.JOptionPane.showMessageDialog(this,"Couldn't connect to DB");
+            return;
+        }
+        else if(retStat == 2) {
+            javax.swing.JOptionPane.showMessageDialog(this,"No JDBC driver");
+            return;
+        }
+        UpdateModule UP = new UpdateModule();
+        UP.setconn(DB.getconn());
+        int ret = UP.changePassword(user.username, pass);
+        DB.disconnect();
+        if(ret != 1) {
+            javax.swing.JOptionPane.showMessageDialog(this,"Error");
+        }
+        else {
+            disablePasswordPanel();
+            javax.swing.JOptionPane.showMessageDialog(this,"Password updated successfully");
+        }
+    }//GEN-LAST:event_UpdateActionPerformed
     
     private void enablePasswordPanel() {
         jPasswordField1.setEnabled(true);
         jPasswordField2.setEnabled(true);
+        Update.setEnabled(false);
         Cancel.setEnabled(true);
         
     }
@@ -388,12 +437,13 @@ public class ExamineeUI extends javax.swing.JFrame {
         jPasswordField2.setText("");
         jPasswordField2.setEnabled(false);
         Cancel.setEnabled(false);
+        Update.setEnabled(false);
         
     }    
     private void checkPassword() {
         String p1 = new String(jPasswordField1.getPassword());
         String p2 = new String(jPasswordField2.getPassword());
-        if(p1.equals(p2)) {
+        if(p1.equals(p2)&&p1.length()>0) {
             Update.setEnabled(true);
         }
         else {
@@ -463,5 +513,5 @@ public class ExamineeUI extends javax.swing.JFrame {
     private javax.swing.JLabel username;
     // End of variables declaration//GEN-END:variables
     private MainWindow prev;
-    private String user;
+    private Examinee user;
 }
