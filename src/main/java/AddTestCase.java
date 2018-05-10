@@ -27,13 +27,13 @@ public class AddTestCase extends javax.swing.JFrame {
         
         initComponents();
     }
-    FacultyHomePage facultyHomePage;
+    ExaminerUI facultyHomePage;
     AddQuestion addQuestion;
     String TestID;
     String testCasePath;
     long count=1;
     //AddQuestion
-    public AddTestCase(AddQuestion aThis, FacultyHomePage facultyHomePage, String TestID) {
+    public AddTestCase(AddQuestion aThis, ExaminerUI facultyHomePage, String TestID) {
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
        this.facultyHomePage=facultyHomePage;
        this.addQuestion=aThis;

@@ -23,4 +23,9 @@ public class AddTestModule {
         AddDataModule adm = new AddDataModule(Conn,"Test");
         adm.addDoc(Data);
     }
+    public void UpdateTest(Map Data)
+    {
+        AddDataModule adm=new AddDataModule(Conn,"Test");
+        adm.updateDoc(Data);
+    }
 }
