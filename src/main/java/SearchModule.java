@@ -258,4 +258,126 @@ public class SearchModule {
         }
         return temp; 
     }
+    ArrayList<Question> fetchQuestions(long testid) {
+        // returns a list of all upcomming tests
+        PreparedStatement prestmt = null;
+        ResultSet res = null;
+        ArrayList<Question> A = new ArrayList<Question>();
+        Question temp;
+        try {
+            //conn.setAutoCommit(false);
+            String query = "select * from question where testid = ?;";
+           
+            prestmt = conn.prepareStatement(query);
+            prestmt.setLong(1, testid);
+            System.out.println(query);
+            res = prestmt.executeQuery();
+            while(res.next()){
+                temp = new Question();
+                temp.id= res.getString(1);
+                temp.name = res.getString(2);
+                temp.testid = res.getLong(3);
+                A.add(temp);
+            }
+            // conn.commit();
+            //print(res);
+            System.out.println("Statement excetued Successfully");
+            
+        } catch (SQLException sqle){
+            System.out.println("Statement not excetued");
+            /*
+            try {
+                conn.rollback();
+                System.out.println("Rollback successful");
+                 
+            } catch (SQLException sqle1){
+                System.out.println("Error");
+                System.out.println(sqle1.getMessage());
+            }
+            */
+            System.out.println(sqle.getMessage());
+            
+        } finally {
+            try {
+                //conn.setAutoCommit(true);
+                if(prestmt!=null)
+                    prestmt.close();
+            } catch (SQLException sqle){
+                System.out.println("Error");
+                System.out.println(sqle.getMessage());
+            }
+        }
+        return A;
+    }
+    ArrayList<Submission> fetchSubmissions(String examineeid,String questionid) {
+        // returns a list of all upcomming tests
+        PreparedStatement prestmt = null;
+        ResultSet res = null;
+        ArrayList<Submission> A = new ArrayList<Submission>();
+        Submission temp;
+        try {
+            //conn.setAutoCommit(false);
+            String query = "select * from submission where examineeid = ? and questionid = ?;";
+            System.out.println(query);
+            prestmt = conn.prepareStatement(query);
+            prestmt.setString(1, examineeid);
+            prestmt.setString(2, questionid);
+            res = prestmt.executeQuery();
+            while(res.next()){
+                temp = new Submission();
+                temp.id= res.getString(1);
+                temp.questionid = res.getString(2);
+                temp.examineeid = res.getString(3);
+                temp.score = res.getInt(4);
+                temp.status = res.getString(5);
+                temp.lang = res.getString(5);
+                A.add(temp);
+            }
+            // conn.commit();
+            //print(res);
+            System.out.println("Statement excetued Successfully");
+            
+        } catch (SQLException sqle){
+            System.out.println("Statement not excetued");
+            /*
+            try {
+                conn.rollback();
+                System.out.println("Rollback successful");
+                 
+            } catch (SQLException sqle1){
+                System.out.println("Error");
+                System.out.println(sqle1.getMessage());
+            }
+            */
+            System.out.println(sqle.getMessage());
+            
+        } finally {
+            try {
+                //conn.setAutoCommit(true);
+                if(prestmt!=null)
+                    prestmt.close();
+            } catch (SQLException sqle){
+                System.out.println("Error");
+                System.out.println(sqle.getMessage());
+            }
+        }
+        return A;
+    }
+    ArrayList<Submission> fetchSubmissions(String examineeid,long testid) {
+        // returns a list of all upcomming tests
+        PreparedStatement prestmt = null;
+        ResultSet res = null;
+        ArrayList<Submission> A = new ArrayList<Submission>();
+        ArrayList<Submission> B = new ArrayList<Submission>();
+        Submission temp;
+        ArrayList<Question> Q = new ArrayList<Question>();
+        Q = fetchQuestions(testid);
+        Question ques;
+        for(int i = 0;i<Q.size();i++) {
+            ques = Q.get(i);
+            B = fetchSubmissions(examineeid,ques.id);
+            A.addAll(B);
+        }
+        return A;
+    }
 }

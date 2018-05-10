@@ -27,8 +27,10 @@ public class AddDataModule {
         this.TableName = TableName;
     }
 
-    public void addDoc(Map data)  
+    public int addDoc(Map data)  
     {
+        // returns 1 on success
+        int ret=0;
         PreparedStatement pres;
         String query = "insert into " + TableName +" (";
         Iterator it = data.entrySet().iterator();
@@ -53,11 +55,13 @@ public class AddDataModule {
         System.out.println(query);
         try {
             pres = Conn.prepareStatement(query);
-            /*ResultSet executeQuery = */pres.executeUpdate();
+            ret=pres.executeUpdate();
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             Logger.getLogger(AddDataModule.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
         }
-        
+        return ret;
     }
     public void updateDoc(Map data){
         PreparedStatement pres;
