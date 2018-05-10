@@ -13,9 +13,10 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
     /**
      * Creates new form UpcomingTestUIExaminee
      */
-    public UpcomingTestUIExaminee(javax.swing.JTabbedPane tabpanel) {
+    public UpcomingTestUIExaminee(javax.swing.JTabbedPane tabpanel,ExamineeUI p) {
         initComponents();
         this.tabpanel = tabpanel;
+        this.window = p;
     }
 
     /**
@@ -168,6 +169,9 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
         tabpanel.setEnabledAt(3, true);
         tabpanel.setEnabledAt(1, false);
         tabpanel.setEnabledAt(2, false);
+        window.setCurrentTest(Long.parseLong(jTextField2.getText()));
+        window.resetsubmissions();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -197,6 +201,7 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
     private javax.swing.JTabbedPane tabpanel;
+    private ExamineeUI window;
     void setJTextField1 (String s) {
         jTextField1.setText(s);    
     }

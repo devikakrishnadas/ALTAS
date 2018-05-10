@@ -389,7 +389,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="QuestionsPane" max="32767" attributes="0"/>
@@ -401,6 +401,36 @@
                               <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="timeleft" min="-2" pref="152" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="jLabel9" min="-2" pref="127" max="-2" attributes="0"/>
+                                      <EmptySpace min="28" pref="66" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="questionbox" max="32767" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jLabel11" min="-2" pref="126" max="-2" attributes="0"/>
+                                  <Component id="languagebox" min="-2" pref="126" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="upload" min="-2" pref="122" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                                      <Component id="submit" min="-2" pref="115" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="clear" alignment="1" min="-2" pref="115" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="240" max="-2" attributes="0"/>
+                              <Component id="exit" min="-2" pref="116" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -418,8 +448,25 @@
                           <Component id="timeleft" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="QuestionsPane" min="-2" pref="207" max="-2" attributes="0"/>
-                      <EmptySpace pref="123" max="32767" attributes="0"/>
+                      <Component id="QuestionsPane" pref="183" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                              <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel11" alignment="3" min="-2" pref="17" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="clear" alignment="1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="questionbox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="languagebox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="upload" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="submit" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="exit" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -431,9 +478,6 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="testname">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="jLabel9"/>
-              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel10">
               <Properties>
@@ -441,14 +485,80 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="timeleft">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="jLabel11"/>
-              </Properties>
             </Component>
             <Container class="javax.swing.JScrollPane" name="QuestionsPane">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JScrollPane(questionpanel)"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="questionpanel = new javax.swing.JPanel();&#xa;questionpanel.setLayout(new javax.swing.BoxLayout(questionpanel,javax.swing.BoxLayout.Y_AXIS));"/>
+                <AuxValue name="JavaCodeGenerator_DeclarationPre" type="java.lang.String" value="private javax.swing.JPanel questionpanel;"/>
+              </AuxValues>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
             </Container>
+            <Component class="javax.swing.JComboBox" name="questionbox">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="questionboxActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JComboBox(questionModel)"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="questionModel = new javax.swing.DefaultComboBoxModel();"/>
+                <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="private javax.swing.DefaultComboBoxModel questionModel;"/>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel9">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Choose Question"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="languagebox">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="1">
+                    <StringItem index="0" value="C++"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel11">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Choose Language"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="upload">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Upload Code"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="uploadActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="submit">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Submit"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="submitActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="clear">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Clear"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="exit">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Leave Test"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exitActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>
