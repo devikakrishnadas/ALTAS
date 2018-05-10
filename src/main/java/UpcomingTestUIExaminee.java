@@ -13,8 +13,9 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
     /**
      * Creates new form UpcomingTestUIExaminee
      */
-    public UpcomingTestUIExaminee() {
+    public UpcomingTestUIExaminee(javax.swing.JTabbedPane tabpanel) {
         initComponents();
+        this.tabpanel = tabpanel;
     }
 
     /**
@@ -146,9 +147,9 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(67, 67, 67)
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -161,15 +162,18 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Configurator C = new Configurator();
-        String s = C.start();
+        //String s = C.start();
         jButton1.setEnabled(false);
         jButton3.setEnabled(true);
+        tabpanel.setEnabledAt(3, true);
+        tabpanel.setEnabledAt(1, false);
+        tabpanel.setEnabledAt(2, false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         Configurator C = new Configurator();
-        String s = C.end();
+        //String s = C.end();
         jButton3.setEnabled(false);
     }//GEN-LAST:event_jButton3ActionPerformed
     public void Insert(Test T) {
@@ -192,6 +196,7 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
+    private javax.swing.JTabbedPane tabpanel;
     void setJTextField1 (String s) {
         jTextField1.setText(s);    
     }

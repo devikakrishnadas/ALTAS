@@ -21,6 +21,7 @@ public class ExamineeUI extends javax.swing.JFrame {
         this.prev=p;
         this.user.username=name;
         this.user.name="";
+        
     }
 
     /**
@@ -58,6 +59,12 @@ public class ExamineeUI extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4,javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1 = new javax.swing.JScrollPane(jPanel4);
+        TestPanel = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        testname = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        timeleft = new javax.swing.JLabel();
+        QuestionsPane = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Home");
@@ -280,6 +287,55 @@ public class ExamineeUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Upcoming Test", jPanel3);
 
+        TestPanel.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                TestPanelComponentShown(evt);
+            }
+        });
+
+        jLabel8.setText("Test Name : ");
+
+        testname.setText("jLabel9");
+
+        jLabel10.setText("Time Left :");
+
+        timeleft.setText("jLabel11");
+
+        javax.swing.GroupLayout TestPanelLayout = new javax.swing.GroupLayout(TestPanel);
+        TestPanel.setLayout(TestPanelLayout);
+        TestPanelLayout.setHorizontalGroup(
+            TestPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TestPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(TestPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(QuestionsPane)
+                    .addGroup(TestPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(testname, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(timeleft, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        TestPanelLayout.setVerticalGroup(
+            TestPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TestPanelLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(TestPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(testname)
+                    .addComponent(jLabel10)
+                    .addComponent(timeleft))
+                .addGap(18, 18, 18)
+                .addComponent(QuestionsPane, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(123, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Test ", TestPanel);
+        jTabbedPane1.setEnabledAt(3, false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -321,7 +377,7 @@ public class ExamineeUI extends javax.swing.JFrame {
         SimpleDateFormat dateFormater = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat timeFormater = new SimpleDateFormat("hh:mm:ss a");
         for(int i=0;i<E.size();i++) {
-            U = new UpcomingTestUIExaminee();
+            U = new UpcomingTestUIExaminee(jTabbedPane1);
             U.setJTextField1(E.get(i).Testname);
             U.setJTextField2(String.valueOf(E.get(i).Testid));
             U.setJTextField3(dateFormater.format(E.get(i).Starttime));
@@ -422,6 +478,12 @@ public class ExamineeUI extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this,"Password updated successfully");
         }
     }//GEN-LAST:event_UpdateActionPerformed
+
+    private void TestPanelComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_TestPanelComponentShown
+        // TODO add your handling code here:
+        jPanel2.setEnabled(false);
+        jPanel3.setEnabled(false);
+    }//GEN-LAST:event_TestPanelComponentShown
     
     private void enablePasswordPanel() {
         jPasswordField1.setEnabled(true);
@@ -491,15 +553,19 @@ public class ExamineeUI extends javax.swing.JFrame {
     private javax.swing.JLabel Class;
     private javax.swing.JButton Logout;
     private javax.swing.JPanel ProfilePanel;
+    private javax.swing.JScrollPane QuestionsPane;
+    private javax.swing.JPanel TestPanel;
     private javax.swing.JButton Update;
     private javax.swing.JButton changepassword;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPasswordField jPasswordField1;
@@ -510,6 +576,8 @@ public class ExamineeUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel name;
     private javax.swing.JPanel passwordpanel;
+    private javax.swing.JLabel testname;
+    private javax.swing.JLabel timeleft;
     private javax.swing.JLabel username;
     // End of variables declaration//GEN-END:variables
     private MainWindow prev;
