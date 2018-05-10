@@ -59,4 +59,24 @@ public class AddDataModule {
         }
         
     }
+    public void updateDoc(Map data){
+        PreparedStatement pres;
+        String query = "update " + TableName +" set ";
+        Iterator it = data.entrySet().iterator();
+        
+        while(it.hasNext())
+        {
+            Map.Entry pair = (Map.Entry)it.next();
+            query = query + pair.getKey() + "=" + pair.getValue() + ",";
+        }
+        query = query.substring(0,query.length()-1);
+        query = query + " where TestID=" + data.get("TestID") + ";";
+        System.out.println(query);
+        try {
+            pres = Conn.prepareStatement(query);
+            /*ResultSet executeQuery = */pres.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(AddDataModule.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

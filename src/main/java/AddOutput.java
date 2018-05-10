@@ -25,7 +25,7 @@ public class AddOutput extends javax.swing.JFrame {
      */
     AddTestCase addTestCase;
     AddQuestion addQuestion;
-    FacultyHomePage facultyHomePage;
+    ExaminerUI facultyHomePage;
     String TestID;
     String outputPath;
     //long count=1;
@@ -34,7 +34,7 @@ public class AddOutput extends javax.swing.JFrame {
         initComponents();
     }
 
-    public AddOutput(AddTestCase aThis, AddQuestion addQuestion, FacultyHomePage facultyHomePage, String TestID) {
+    public AddOutput(AddTestCase aThis, AddQuestion addQuestion, ExaminerUI facultyHomePage, String TestID) {
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
        this.addTestCase=aThis;
        this.addQuestion=addQuestion;

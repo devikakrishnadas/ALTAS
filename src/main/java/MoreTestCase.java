@@ -13,7 +13,7 @@ public class MoreTestCase extends javax.swing.JFrame {
     /**
      * Creates new form MoreTestCase
      */
-    FacultyHomePage facultyHomePage;
+    ExaminerUI facultyHomePage;
     AddQuestion addQuestion;
     AddTestCase addTestCase;
     AddOutput addOutput;
@@ -23,7 +23,7 @@ public class MoreTestCase extends javax.swing.JFrame {
         initComponents();
     }
 
-    public MoreTestCase(FacultyHomePage facultyHomePage,AddQuestion addQuestion,AddTestCase addTestCase,AddOutput addOutput,String TestID) {
+    public MoreTestCase(ExaminerUI facultyHomePage,AddQuestion addQuestion,AddTestCase addTestCase,AddOutput addOutput,String TestID) {
       //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
       this.facultyHomePage=facultyHomePage;
       this.addQuestion=addQuestion;

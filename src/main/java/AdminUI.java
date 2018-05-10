@@ -17,7 +17,7 @@ public class AdminUI extends javax.swing.JFrame {
     /**
      * Creates new form AdminUI
      */
-    public AdminUI(MainWindow p) {
+    public AdminUI(HomeWindow p) {
         this.prev = p;
         initComponents();
     }
@@ -419,5 +419,5 @@ public class AdminUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
-    private MainWindow prev;
+    private HomeWindow prev;
 }
