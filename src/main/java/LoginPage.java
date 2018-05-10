@@ -183,7 +183,7 @@ public class LoginPage extends javax.swing.JFrame {
             new FacultyHomePage(usr,prev).setVisible(true);
         }
         else{
-            new ExamineeUI(prev).setVisible(true);
+            new ExamineeUI(prev,usr).setVisible(true);
         }
         }
 //        this.dispose();

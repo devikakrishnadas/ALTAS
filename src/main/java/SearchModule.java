@@ -152,4 +152,56 @@ public class SearchModule {
         }
         return A;
     }
+    Examinee fetchExamineeDetails(String username) {
+        PreparedStatement prestmt = null;
+        ResultSet res = null;
+        Examinee temp = new Examinee();
+        try {
+            //conn.setAutoCommit(false);
+            String query = "select name from userlist where username = ?;";
+            System.out.println(query);
+            prestmt = conn.prepareStatement(query);
+            prestmt.setString(1,username);
+            res = prestmt.executeQuery();
+            res.next();
+            temp.name = res.getString(1);
+            query = "select * from registeredstudents where username = ?;";
+            System.out.println(query);
+            prestmt = conn.prepareStatement(query);
+            prestmt.setString(1,username);
+            res = prestmt.executeQuery();
+            res.next();
+            temp.username = res.getString(1);
+            temp.Class = res.getString(2);
+            temp.Branch = res.getString(3);
+            // conn.commit();
+            //print(res);
+            System.out.println("Statement excetued Successfully");
+            
+        } catch (SQLException sqle){
+            System.out.println("Statement not excetued");
+            /*
+            try {
+                conn.rollback();
+                System.out.println("Rollback successful");
+                 
+            } catch (SQLException sqle1){
+                System.out.println("Error");
+                System.out.println(sqle1.getMessage());
+            }
+            */
+            System.out.println(sqle.getMessage());
+            
+        } finally {
+            try {
+                //conn.setAutoCommit(true);
+                if(prestmt!=null)
+                    prestmt.close();
+            } catch (SQLException sqle){
+                System.out.println("Error");
+                System.out.println(sqle.getMessage());
+            }
+        }
+        return temp; 
+    }
 }
