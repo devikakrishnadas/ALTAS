@@ -40,6 +40,7 @@ public class SearchModule {
             accountType="f";
         }
         String query = "select count(*) from "+ tablename +" where Username='"+ Username +"' and password='"+ Password +"' and accounttype='"+accountType+"';";
+        System.out.println(query);
         try {
             
             pres = conn.prepareStatement(query);
@@ -48,6 +49,7 @@ public class SearchModule {
             //System.out.println("res " + res.getInt(1));
             return res.getInt(1);
         } catch (SQLException ex) {
+            System.out.println("Exception encountered");
             Logger.getLogger(SearchModule.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
@@ -101,7 +103,59 @@ public class SearchModule {
             }
         }
         return A;
-    } 
+    }
+    
+    ArrayList<Test> PreviousTestDetails() {
+        // returns a list of all upcomming tests
+        PreparedStatement prestmt = null;
+        ResultSet res = null;
+        ArrayList<Test> A = new ArrayList<Test>();
+        Test temp;
+        try {
+            String query = "select * from test where starttime < CURRENT_TIMESTAMP;";
+            //System.out.println(query);
+            prestmt = conn.prepareStatement(query);
+            res = prestmt.executeQuery();
+            while(res.next()){
+                temp = new Test();
+                temp.Testid = res.getLong(1);
+                temp.Starttime = res.getTimestamp(2);
+                temp.Endtime = res.getTimestamp(3);
+                temp.Testname = res.getString(4);
+//                temp.status = res.getInt(5);
+                A.add(temp);
+            }
+            // conn.commit();
+            //print(res);
+            System.out.println("Statement excetued Successfully");
+            
+        } catch (SQLException sqle){
+            System.out.println("Statement not excetued");
+            /*
+            try {
+                conn.rollback();
+                System.out.println("Rollback successful");
+                 
+            } catch (SQLException sqle1){
+                System.out.println("Error");
+                System.out.println(sqle1.getMessage());
+            }
+            */
+            System.out.println(sqle.getMessage());
+            
+        } finally {
+            try {
+                //conn.setAutoCommit(true);
+                if(prestmt!=null)
+                    prestmt.close();
+            } catch (SQLException sqle){
+                System.out.println("Error");
+                System.out.println(sqle.getMessage());
+            }
+        }
+        return A;
+    }
+    
     ArrayList<Request> fetchrequests() {
         // returns a list of all upcomming tests
         PreparedStatement prestmt = null;

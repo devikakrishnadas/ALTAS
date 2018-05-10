@@ -15,7 +15,11 @@ public class ExamineeUI extends javax.swing.JFrame {
     /**
      * Creates new form ExamineeUI
      */
-    public ExamineeUI(MainWindow p,String name) {
+//<<<<<<< Updated upstream
+    public ExamineeUI(HomeWindow p,String name) {
+//=======
+//    public ExamineeUI(HomeWindow p) {
+//>>>>>>> Stashed changes
         initComponents();
         user = new Examinee();
         this.prev=p;
@@ -580,6 +584,10 @@ public class ExamineeUI extends javax.swing.JFrame {
     private javax.swing.JLabel timeleft;
     private javax.swing.JLabel username;
     // End of variables declaration//GEN-END:variables
-    private MainWindow prev;
+//<<<<<<< Updated upstream
+    private HomeWindow prev;
     private Examinee user;
+//=======
+//    private HomeWindow prev;
+//>>>>>>> Stashed changes
 }
