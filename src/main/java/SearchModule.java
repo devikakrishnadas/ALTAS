@@ -330,7 +330,8 @@ public class SearchModule {
                 temp.examineeid = res.getString(3);
                 temp.score = res.getInt(4);
                 temp.status = res.getString(5);
-                temp.lang = res.getString(5);
+                temp.lang = res.getString(6);
+                temp.submittime = res.getTimestamp(7);
                 A.add(temp);
             }
             // conn.commit();
