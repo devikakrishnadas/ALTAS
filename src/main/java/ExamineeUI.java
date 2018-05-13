@@ -43,6 +43,7 @@ public class ExamineeUI extends javax.swing.JFrame {
         this.user.name="";
         this.upcomingTest=0;
         this.testover=false;
+        this.finishedTest=0;
         
     }
 
@@ -77,6 +78,9 @@ public class ExamineeUI extends javax.swing.JFrame {
         changepassword = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
+        finishedtestpanel = new javax.swing.JPanel();
+        finishedtestpanel.setLayout(new javax.swing.BoxLayout(finishedtestpanel,javax.swing.BoxLayout.Y_AXIS));
+        jScrollPane2 = new javax.swing.JScrollPane(finishedtestpanel);
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4,javax.swing.BoxLayout.Y_AXIS));
@@ -97,6 +101,12 @@ public class ExamineeUI extends javax.swing.JFrame {
         submit = new javax.swing.JButton();
         clear = new javax.swing.JButton();
         exit = new javax.swing.JButton();
+        submissionpanel = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        Testname = new javax.swing.JLabel();
+        subpanel = new javax.swing.JPanel();
+        subpanel.setLayout(new javax.swing.BoxLayout(subpanel,javax.swing.BoxLayout.Y_AXIS));
+        submissionspane = new javax.swing.JScrollPane(subpanel);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Home");
@@ -287,15 +297,21 @@ public class ExamineeUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Profile", ProfilePanel);
 
+        jPanel2.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanel2ComponentShown(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 662, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 388, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Finished Tests", jPanel2);
@@ -443,6 +459,43 @@ public class ExamineeUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Test ", TestPanel);
         jTabbedPane1.setEnabledAt(3, false);
+
+        submissionpanel.setEnabled(false);
+        submissionpanel.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                submissionpanelComponentShown(evt);
+            }
+        });
+
+        jLabel10.setText("Test Name :");
+
+        javax.swing.GroupLayout submissionpanelLayout = new javax.swing.GroupLayout(submissionpanel);
+        submissionpanel.setLayout(submissionpanelLayout);
+        submissionpanelLayout.setHorizontalGroup(
+            submissionpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(submissionpanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(submissionpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(submissionspane)
+                    .addGroup(submissionpanelLayout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Testname, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        submissionpanelLayout.setVerticalGroup(
+            submissionpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(submissionpanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(submissionpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(Testname, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(submissionspane, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Submissions", submissionpanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -614,7 +667,7 @@ public class ExamineeUI extends javax.swing.JFrame {
             questionModel.removeAllElements();
             questionModel.addElement("");
             for(int i=0;i<E.size();i++) {
-                U = new QuestionUI(E.get(i));
+                U = new QuestionUI(E.get(i),i+1);
                 questionpanel.add(U);
                 questionModel.addElement(E.get(i).id);
             }
@@ -633,6 +686,12 @@ public class ExamineeUI extends javax.swing.JFrame {
             return;
         }
         String path =  file.getAbsolutePath();
+        ConnectDB DB = new ConnectDB();
+        DB.connect();
+        SearchModule SER = new SearchModule();
+        SER.setconn(DB.getconn());
+        submissions = SER.fetchSubmissionsCount(user.username, currenttest.Testid);
+        submissions++;
         String subid = user.username+"-"+questionModel.getSelectedItem()+"-"+String.valueOf(submissions);
         Submission S = new Submission();
         S.examineeid = user.username;
@@ -640,8 +699,17 @@ public class ExamineeUI extends javax.swing.JFrame {
         S.id = subid;
         S.lang = (String) languagebox.getSelectedItem();
         StringBuilder response = null;
+        serverDetails sd = new serverDetails();
+        int r = sd.fetchDetails();
+        if(r!=0) {
+            questionbox.setSelectedIndex(0);
+            submit.setEnabled(false);
+            upload.setEnabled(false);
+            javax.swing.JOptionPane.showMessageDialog(this,"Error");
+            return;
+        }
         try {
-            String GET_URL = "http://localhost:8084/ALTASserver/Time";
+            String GET_URL = sd.url+"/Time";
             URL obj = new URL(GET_URL);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             con.setRequestMethod("GET");
@@ -689,16 +757,22 @@ public class ExamineeUI extends javax.swing.JFrame {
             upload.setEnabled(false);
             return;
         }
-        ConnectDB DB = new ConnectDB();
-        DB.connect();
-        response = null;
+       
+        response = new StringBuilder();
         try {
-            AddFileToDB addOut = new AddFileToDB(path,subid);
             AddSubmissionModule asm = new AddSubmissionModule(DB.getconn());
-            asm.add(S);
-            submissions++;
-            String POST_URL = "http://localhost:8084/ALTASserver/Time";
-            String POST_PARAMS = "id="+subid;
+            int ret = asm.add(S);
+            if(ret != 1) {
+                JOptionPane.showMessageDialog(this, "Error");
+                DB.disconnect();
+                questionbox.setSelectedIndex(0);
+                submit.setEnabled(false);
+                upload.setEnabled(false);
+                return;
+            }
+            AddFileToDB addOut = new AddFileToDB(path,subid);
+            String POST_URL = sd.url+"/Judge";
+            String POST_PARAMS = "subid="+subid+"&testid="+currenttest.Testid+"&qid="+S.questionid;
             URL obj = new URL(POST_URL);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             con.setRequestMethod("POST");
@@ -783,6 +857,75 @@ public class ExamineeUI extends javax.swing.JFrame {
         upload.setEnabled(false);
         submit.setEnabled(false);
     }//GEN-LAST:event_clearActionPerformed
+
+    private void jPanel2ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel2ComponentShown
+        // TODO add your handling code here:
+        if(finishedTest!=0) {
+            return;
+        }
+        finishedTest=1;
+        int retStat;
+        ArrayList<Test> E;
+        finishedtestpanel.removeAll();
+        ConnectDB DB = new ConnectDB();
+        retStat = DB.connect();
+        if(retStat == 1) {
+            javax.swing.JOptionPane.showMessageDialog(this,"Couldn't connect to DB");
+            return;
+        }
+        else if(retStat == 2) {
+            javax.swing.JOptionPane.showMessageDialog(this,"No JDBC driver");
+            return;
+        }
+        SearchModule SER = new SearchModule();
+        SER.setconn(DB.getconn());
+        E = SER.PreviousTestDetails();
+        if(E.size()==0) {
+            retStat = DB.disconnect();
+            javax.swing.JOptionPane.showMessageDialog(this,"No finished tests to show");
+            return;
+        }
+        FinishedTestUI U; 
+        SimpleDateFormat dateFormater = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFormater = new SimpleDateFormat("hh:mm:ss a");
+        for(int i=0;i<E.size();i++) {
+            U = new FinishedTestUI(jTabbedPane1,this,E.get(i));
+            finishedtestpanel.add(U);
+        }
+        retStat = DB.disconnect();
+    }//GEN-LAST:event_jPanel2ComponentShown
+
+    private void submissionpanelComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_submissionpanelComponentShown
+        // TODO add your handling code here:
+        int retStat;
+        ArrayList<Submission> E;
+        subpanel.removeAll();
+        ConnectDB DB = new ConnectDB();
+        retStat = DB.connect();
+        if(retStat == 1) {
+            javax.swing.JOptionPane.showMessageDialog(this,"Couldn't connect to DB");
+            return;
+        }
+        else if(retStat == 2) {
+            javax.swing.JOptionPane.showMessageDialog(this,"No JDBC driver");
+            return;
+        }
+        SearchModule SER = new SearchModule();
+        SER.setconn(DB.getconn());
+        E = SER.fetchSubmissions(user.username, currenttest.Testid);
+        if(E.size()==0) {
+            retStat = DB.disconnect();
+            javax.swing.JOptionPane.showMessageDialog(this,"No submissions to show");
+            return;
+        }
+        SubmissionUI U; 
+        for(int i=0;i<E.size();i++) {
+            U = new SubmissionUI(E.get(i));
+            subpanel.add(U);
+        }
+        retStat = DB.disconnect();
+        
+    }//GEN-LAST:event_submissionpanelComponentShown
     
     private void enablePasswordPanel() {
         jPasswordField1.setEnabled(true);
@@ -861,11 +1004,13 @@ public class ExamineeUI extends javax.swing.JFrame {
     private javax.swing.JPanel questionpanel;
     private javax.swing.JScrollPane QuestionsPane;
     private javax.swing.JPanel TestPanel;
+    private javax.swing.JLabel Testname;
     private javax.swing.JButton Update;
     private javax.swing.JButton changepassword;
     private javax.swing.JButton clear;
     private javax.swing.JButton exit;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
@@ -882,6 +1027,8 @@ public class ExamineeUI extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel finishedtestpanel;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JComboBox<String> languagebox;
@@ -889,6 +1036,9 @@ public class ExamineeUI extends javax.swing.JFrame {
     private javax.swing.JPanel passwordpanel;
     private javax.swing.JComboBox questionbox;
     private javax.swing.DefaultComboBoxModel questionModel;
+    private javax.swing.JPanel submissionpanel;
+    private javax.swing.JPanel subpanel;
+    private javax.swing.JScrollPane submissionspane;
     private javax.swing.JButton submit;
     private javax.swing.JLabel testname;
     private javax.swing.JButton upload;
@@ -902,6 +1052,7 @@ public class ExamineeUI extends javax.swing.JFrame {
     private File file;
     private int upcomingTest;
     private boolean testover;
+    private int finishedTest;
 //=======
 //    private HomeWindow prev;
 //>>>>>>> Stashed changes
