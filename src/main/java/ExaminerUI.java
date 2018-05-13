@@ -400,10 +400,6 @@ public class ExaminerUI extends javax.swing.JFrame {
             U = new PreviousTestUIExaminer();
             U.set1(E.get(i).Testname);
             U.set2(String.valueOf(E.get(i).Testid));
-            U.set3(dateFormater.format(E.get(i).Starttime));
-            U.set4(timeFormater.format(E.get(i).Starttime));
-            U.set5(dateFormater.format(E.get(i).Endtime));
-            U.set6(timeFormater.format(E.get(i).Endtime));
             jPanel6.add(U);
         }
         retStat = DB.disconnect();

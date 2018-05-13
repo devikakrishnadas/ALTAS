@@ -8,13 +8,38 @@
  *
  * @author christy
  */
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+
 public class UpcomingTestUIExaminee extends javax.swing.JPanel {
 
     /**
      * Creates new form UpcomingTestUIExaminee
      */
-    public UpcomingTestUIExaminee() {
+    public UpcomingTestUIExaminee(javax.swing.JTabbedPane tabpanel,ExamineeUI p,Test t) {
         initComponents();
+        this.tabpanel = tabpanel;
+        this.window = p;
+        this.test = t;
+        SimpleDateFormat dateFormater = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFormater = new SimpleDateFormat("hh:mm:ss a");
+        setJTextField1(test.Testname);
+        setJTextField2(String.valueOf(test.Testid));
+        setJTextField3(dateFormater.format(test.Starttime));
+        setJTextField4(timeFormater.format(test.Starttime));
+        setJTextField5(dateFormater.format(test.Endtime));
+        setJTextField6(timeFormater.format(test.Endtime));
     }
 
     /**
@@ -146,9 +171,9 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(67, 67, 67)
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -161,15 +186,71 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Configurator C = new Configurator();
-        String s = C.start();
+        StringBuilder response = null;
+        try {
+            String GET_URL = "http://localhost:8084/ALTASserver/Time";
+            URL obj = new URL(GET_URL);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("GET");
+            int responseCode = con.getResponseCode();
+            System.out.println("GET Response Code :: " + responseCode);
+            if (responseCode == HttpURLConnection.HTTP_OK) { // success
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                response = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+                System.out.println(response.toString());
+            }
+            else {
+                System.out.println("GET request not worked");
+                return;
+            }
+        }
+        catch (MalformedURLException urle) {
+            JOptionPane.showMessageDialog(tabpanel, "Cannot find judge server");
+            return;
+        }
+        catch (IOException ioe) {
+            JOptionPane.showMessageDialog(tabpanel, "Error");
+            return;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date temp = null;
+        try {
+            temp = sdf.parse(response.toString());
+        }
+        catch (ParseException pe) {
+            JOptionPane.showMessageDialog(tabpanel, "Time error");
+            return;
+        }
+        Timestamp servertime = new Timestamp(temp.getTime());
+        if(servertime.before(test.Starttime)) {
+           JOptionPane.showMessageDialog(tabpanel, "Test has not started yet");
+           //return;
+        }
+        if(servertime.after(test.Endtime)) {
+            JOptionPane.showMessageDialog(tabpanel, "Test is over");
+            //return;
+        }
+        //String s = C.start();
         jButton1.setEnabled(false);
         jButton3.setEnabled(true);
+        tabpanel.setEnabledAt(3, true);
+        tabpanel.setSelectedComponent(tabpanel.getComponentAt(3));
+        tabpanel.setEnabledAt(1, false);
+        tabpanel.setEnabledAt(2, false);
+        window.setCurrentTest(test);
+        window.resetsubmissions();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         Configurator C = new Configurator();
-        String s = C.end();
+        //String s = C.end();
         jButton3.setEnabled(false);
     }//GEN-LAST:event_jButton3ActionPerformed
     public void Insert(Test T) {
@@ -192,6 +273,9 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
+    private javax.swing.JTabbedPane tabpanel;
+    private ExamineeUI window;
+    private Test test;
     void setJTextField1 (String s) {
         jTextField1.setText(s);    
     }
