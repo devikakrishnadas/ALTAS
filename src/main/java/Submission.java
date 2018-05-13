@@ -8,7 +8,9 @@
  *
  * @author christy
  */
+import java.sql.Timestamp;
 public class Submission {
     String id,questionid,examineeid,status,lang;
     int score;
+    Timestamp submittime;
 }
