@@ -381,4 +381,65 @@ public class SearchModule {
         }
         return A;
     }
+    int fetchSubmissionsCount(String examineeid,String questionid) {
+        // returns a list of all upcomming tests
+        PreparedStatement prestmt = null;
+        ResultSet res = null;
+        int Count = 0;
+        try {
+            //conn.setAutoCommit(false);
+            String query = "select count(*) from submission where examineeid = ? and questionid = ?;";
+            System.out.println(query);
+            prestmt = conn.prepareStatement(query);
+            prestmt.setString(1, examineeid);
+            prestmt.setString(2, questionid);
+            res = prestmt.executeQuery();
+            while(res.next()){
+               Count += res.getInt(1);
+            }
+            // conn.commit();
+            //print(res);
+            System.out.println("Statement excetued Successfully");
+            
+        } catch (SQLException sqle){
+            System.out.println("Statement not excetued");
+            /*
+            try {
+                conn.rollback();
+                System.out.println("Rollback successful");
+                 
+            } catch (SQLException sqle1){
+                System.out.println("Error");
+                System.out.println(sqle1.getMessage());
+            }
+            */
+            System.out.println(sqle.getMessage());
+            
+        } finally {
+            try {
+                //conn.setAutoCommit(true);
+                if(prestmt!=null)
+                    prestmt.close();
+            } catch (SQLException sqle){
+                System.out.println("Error");
+                System.out.println(sqle.getMessage());
+            }
+        }
+        return Count;
+    }
+    int fetchSubmissionsCount(String examineeid,long testid) {
+        // returns a list of all upcomming tests
+        PreparedStatement prestmt = null;
+        ResultSet res = null;
+        int Count=0;
+        Submission temp;
+        ArrayList<Question> Q = new ArrayList<Question>();
+        Q = fetchQuestions(testid);
+        Question ques;
+        for(int i = 0;i<Q.size();i++) {
+            ques = Q.get(i);
+            Count+= fetchSubmissionsCount(examineeid,ques.id);
+        }
+        return Count;
+    }
 }
