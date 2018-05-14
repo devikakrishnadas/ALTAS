@@ -370,6 +370,9 @@ public class HomeWindow extends javax.swing.JFrame {
             this.setVisible(false);
             new AdminUI(this).setVisible(true);
         }
+        else {
+            JOptionPane.showMessageDialog(this, "Incorrect Username/Password");
+        }
     }//GEN-LAST:event_AloginActionPerformed
 
     /**
