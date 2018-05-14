@@ -189,6 +189,7 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
         }
         try {
             String GET_URL = sd.url+"/Time";
+            System.out.println(GET_URL);
             URL obj = new URL(GET_URL);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             con.setRequestMethod("GET");
