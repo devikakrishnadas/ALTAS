@@ -38,6 +38,7 @@ public class SubmissionUI extends javax.swing.JPanel {
             submittime.setText(S.submittime.toString());
         }
         catch (NullPointerException npe) {
+            System.out.println("Null vlaue for submittime");
             submittime.setText("null");
         }
     }
@@ -169,10 +170,12 @@ public class SubmissionUI extends javax.swing.JPanel {
              file = jfc.getSelectedFile();
              getFileFromDB gff = new getFileFromDB();
              ret = gff.getFile(file.getAbsolutePath(), S.id);
+             JOptionPane.showMessageDialog(this, "File saved");
          }
          catch (Exception e) {
              JOptionPane.showMessageDialog(null, "Error");
          }
+         
     }//GEN-LAST:event_downloadActionPerformed
 
 

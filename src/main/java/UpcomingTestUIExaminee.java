@@ -229,12 +229,12 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
         }
         Timestamp servertime = new Timestamp(temp.getTime());
         if(servertime.before(test.Starttime)) {
-           JOptionPane.showMessageDialog(tabpanel, "Test has not started yet");
-           //return;
+            JOptionPane.showMessageDialog(tabpanel, "Test has not started yet");
+            return;
         }
         if(servertime.after(test.Endtime)) {
             JOptionPane.showMessageDialog(tabpanel, "Test is over");
-            //return;
+            return;
         }
         //String s = C.start();
         jButton1.setEnabled(false);
@@ -254,9 +254,7 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
         //String s = C.end();
         jButton3.setEnabled(false);
     }//GEN-LAST:event_jButton3ActionPerformed
-    public void Insert(Test T) {
-        
-    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
