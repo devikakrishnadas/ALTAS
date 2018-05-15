@@ -32,13 +32,13 @@ public class ExamineeUI extends javax.swing.JFrame {
      * Creates new form ExamineeUI
      */
 //<<<<<<< Updated upstream
-    public ExamineeUI(HomeWindow p,String name) {
+    public ExamineeUI(String name) {
 //=======
 //    public ExamineeUI(HomeWindow p) {
 //>>>>>>> Stashed changes
         initComponents();
         user = new Examinee();
-        this.prev=p;
+//        this.prev=p;
         this.user.username=name;
         this.user.name="";
         this.upcomingTest=0;
@@ -554,11 +554,8 @@ public class ExamineeUI extends javax.swing.JFrame {
        
     }//GEN-LAST:event_formWindowClosing
     private void closeWindow() {
-        this.setVisible(false);
-        if(prev!=null) {
-            prev.setVisible(true);
-        }
         this.dispose();
+        new HomeWindow().setVisible(true);
     }
     private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
         closeWindow();
@@ -990,7 +987,7 @@ public class ExamineeUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ExamineeUI(null,"").setVisible(true);
+                new ExamineeUI("").setVisible(true);
             }
         });
     }
@@ -1045,7 +1042,7 @@ public class ExamineeUI extends javax.swing.JFrame {
     private javax.swing.JLabel username;
     // End of variables declaration//GEN-END:variables
 //<<<<<<< Updated upstream
-    private HomeWindow prev;
+//    private HomeWindow prev;
     private Examinee user;
     private Test currenttest;
     private int submissions;

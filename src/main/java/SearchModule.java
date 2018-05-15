@@ -321,7 +321,7 @@ public class SearchModule {
             System.out.println(query);
             prestmt = conn.prepareStatement(query);
             prestmt.setString(1, examineeid);
-            prestmt.setString(2, questionid);
+            prestmt.setString(2, questionid);   
             res = prestmt.executeQuery();
             while(res.next()){
                 temp = new Submission();
@@ -381,6 +381,83 @@ public class SearchModule {
         }
         return A;
     }
+    
+    ArrayList<Submission> fetchSubmissions(String questionid) {
+        // returns a list of all upcomming tests
+        PreparedStatement prestmt = null;
+        ResultSet res = null;
+        ArrayList<Submission> A = new ArrayList<Submission>();
+        Submission temp;
+        try {
+            //conn.setAutoCommit(false);
+            String query = "select * from submission where questionid = ?;";
+            System.out.println(query);
+            prestmt = conn.prepareStatement(query);
+//            prestmt.setString(1, examineeid);
+            prestmt.setString(1, questionid);   
+            res = prestmt.executeQuery();
+            while(res.next()){
+                temp = new Submission();
+                temp.id= res.getString(1);
+                temp.questionid = res.getString(2);
+                temp.examineeid = res.getString(3);
+                temp.score = res.getInt(4);
+                temp.status = res.getString(5);
+                temp.lang = res.getString(6);
+                temp.submittime = res.getTimestamp(7);
+                A.add(temp);
+            }
+            // conn.commit();
+            //print(res);
+            System.out.println("Statement excetued Successfully");
+            
+        } catch (SQLException sqle){
+            System.out.println("Statement not excetued");
+            /*
+            try {
+                conn.rollback();
+                System.out.println("Rollback successful");
+                 
+            } catch (SQLException sqle1){
+                System.out.println("Error");
+                System.out.println(sqle1.getMessage());
+            }
+            */
+            System.out.println(sqle.getMessage());
+            
+        } finally {
+            try {
+                //conn.setAutoCommit(true);
+                if(prestmt!=null)
+                    prestmt.close();
+            } catch (SQLException sqle){
+                System.out.println("Error");
+                System.out.println(sqle.getMessage());
+            }
+        }
+        return A;
+    }
+    
+    
+    ArrayList<Submission> fetchSubmissions(long testid) {
+        // returns a list of all upcomming tests
+        PreparedStatement prestmt = null;
+        ResultSet res = null;
+        ArrayList<Submission> A = new ArrayList<Submission>();
+        ArrayList<Submission> B = new ArrayList<Submission>();
+        Submission temp;
+        ArrayList<Question> Q = new ArrayList<Question>();
+        Q = fetchQuestions(testid);
+        Question ques;
+        for(int i = 0;i<Q.size();i++) {
+            ques = Q.get(i);
+            B = fetchSubmissions(ques.id);
+            A.addAll(B);
+        }
+        return A;
+    }
+    
+    
     int fetchSubmissionsCount(String examineeid,String questionid) {
         // returns a list of all upcomming tests
         PreparedStatement prestmt = null;
@@ -427,6 +504,9 @@ public class SearchModule {
         }
         return Count;
     }
+    
+    
+    
     int fetchSubmissionsCount(String examineeid,long testid) {
         // returns a list of all upcomming tests
         PreparedStatement prestmt = null;

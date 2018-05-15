@@ -17,8 +17,8 @@ public class AdminUI extends javax.swing.JFrame {
     /**
      * Creates new form AdminUI
      */
-    public AdminUI(HomeWindow p) {
-        this.prev = p;
+    public AdminUI() {
+//        this.prev = p;
         initComponents();
     }
 
@@ -441,11 +441,8 @@ public class AdminUI extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        this.setVisible(false);
-        if(prev!=null) {
-            prev.setVisible(true);
-        }
         this.dispose();
+        new HomeWindow().setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -504,11 +501,9 @@ public class AdminUI extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
-        if(prev!=null) {
-            prev.setVisible(true);
-        }
+      
         this.dispose();
+        new HomeWindow().setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
     public void disablejPanel6() {
         jPasswordField1.setEnabled(false);
@@ -552,7 +547,7 @@ public class AdminUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdminUI(null).setVisible(true);
+                new AdminUI().setVisible(true);
             }
         });
     }
@@ -587,5 +582,5 @@ public class AdminUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
-    private HomeWindow prev;
+//    private HomeWindow prev;
 }
