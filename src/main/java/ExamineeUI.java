@@ -44,6 +44,7 @@ public class ExamineeUI extends javax.swing.JFrame {
         this.upcomingTest=0;
         this.testover=false;
         this.finishedTest=0;
+        this.reftest=0;
         
     }
 
@@ -638,6 +639,10 @@ public class ExamineeUI extends javax.swing.JFrame {
     private void TestPanelComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_TestPanelComponentShown
         // TODO add your handling code here:
         int retStat;
+        if(reftest!=0) {
+            return;
+        }
+        reftest=1;
         testname.setText(currenttest.Testname);
         ArrayList<Question> E;
         questionpanel.removeAll();
@@ -737,15 +742,18 @@ public class ExamineeUI extends javax.swing.JFrame {
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date temp = null;
+        Timestamp servertime;
         try {
             temp = sdf.parse(response.toString());
+            servertime = new Timestamp(temp.getTime());
+            S.submittime = servertime;
+            System.out.println("Submit time is = "+S.submittime.toString());
         }
         catch (ParseException pe) {
             JOptionPane.showMessageDialog(this, "Time error");
             return;
         }
-        Timestamp servertime = new Timestamp(temp.getTime());
-        S.submittime = servertime;
+       
         if(servertime.after(currenttest.Endtime)) {
             JOptionPane.showMessageDialog(this, "Test is over");
             testover=true;
@@ -811,7 +819,8 @@ public class ExamineeUI extends javax.swing.JFrame {
         jTabbedPane1.setEnabledAt(2,true);
         jTabbedPane1.setSelectedComponent(jTabbedPane1.getComponentAt(2));
         jTabbedPane1.setEnabledAt(3,false);
-        
+        jTabbedPane1.setEnabledAt(4,false);
+        currenttest=null;
     }//GEN-LAST:event_exitActionPerformed
 
     private void uploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadActionPerformed
@@ -897,6 +906,10 @@ public class ExamineeUI extends javax.swing.JFrame {
         int retStat;
         ArrayList<Submission> E;
         subpanel.removeAll();
+        if(currenttest==null) {
+            javax.swing.JOptionPane.showMessageDialog(this,"Selet a test first");
+            return;
+        } 
         ConnectDB DB = new ConnectDB();
         retStat = DB.connect();
         if(retStat == 1) {
@@ -1050,6 +1063,7 @@ public class ExamineeUI extends javax.swing.JFrame {
     private int upcomingTest;
     private boolean testover;
     private int finishedTest;
+    private int reftest;
 //=======
 //    private HomeWindow prev;
 //>>>>>>> Stashed changes
