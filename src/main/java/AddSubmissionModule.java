@@ -36,6 +36,7 @@ public class AddSubmissionModule {
         data.put("questionid","'"+S.questionid+"'");
         data.put("examineeid","'"+S.examineeid+"'");
         data.put("lang","'"+S.lang+"'");
+        data.put("submittime","'"+S.submittime+"'");
         AddDataModule adm = new AddDataModule(conn,tablename);
         ret = adm.addDoc(data);
         DB.disconnect();

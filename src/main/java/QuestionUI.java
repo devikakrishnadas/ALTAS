@@ -116,10 +116,12 @@ public class QuestionUI extends javax.swing.JPanel {
              file = jfc.getSelectedFile();
              getFileFromDB gff = new getFileFromDB();
              ret = gff.getFile(file.getAbsolutePath(), Q.id);
+             JOptionPane.showMessageDialog(this, "File saved");
          }
          catch (Exception e) {
              JOptionPane.showMessageDialog(null, "Error");
          }
+        
     }//GEN-LAST:event_downloadActionPerformed
     private void set(int num) {
         ID.setText(Q.id);
