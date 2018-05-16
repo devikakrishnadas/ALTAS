@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -25,7 +27,7 @@ public class AddOutput extends javax.swing.JFrame {
      */
     AddTestCase addTestCase;
     AddQuestion addQuestion;
-    FacultyHomePage facultyHomePage;
+    ExaminerUI facultyHomePage;
     String TestID;
     String outputPath;
     //long count=1;
@@ -34,7 +36,7 @@ public class AddOutput extends javax.swing.JFrame {
         initComponents();
     }
 
-    public AddOutput(AddTestCase aThis, AddQuestion addQuestion, FacultyHomePage facultyHomePage, String TestID) {
+    public AddOutput(AddTestCase aThis, AddQuestion addQuestion, ExaminerUI facultyHomePage, String TestID) {
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
        this.addTestCase=aThis;
        this.addQuestion=addQuestion;
@@ -123,7 +125,15 @@ public class AddOutput extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(AddOutput.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        ConnectDB DB = new ConnectDB();
+        DB.connect();
+        Map data = new HashMap();
+        data.put("id","'"+TestID+"que"+Long.toString(addQuestion.getQuestionCount())+"'");
+        data.put("name","'Question'");
+        data.put("testid",Long.parseLong(TestID));
+        AddDataModule adm = new AddDataModule(DB.getconn(),"question");
+        adm.addDoc(data);
+        DB.disconnect();
         this.setVisible(false);
         new MoreTestCase(facultyHomePage,addQuestion,addTestCase,this,TestID).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed

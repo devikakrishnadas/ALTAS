@@ -27,13 +27,13 @@ public class AddQuestion extends javax.swing.JFrame {
      * Creates new form AddQuestion
      */
     
-    FacultyHomePage facultyHomePage;
+    ExaminerUI facultyHomePage;
 //    ArrayList<File> Questions = new ArrayList<>();
     String TestID;
     MongoClient mongo;
     String questionPath;
     long count=1;
-    public AddQuestion(FacultyHomePage facultyHomePage,String TestID) {
+    public AddQuestion(ExaminerUI facultyHomePage,String TestID) {
         initComponents();
 //        this.count++;
         this.questionPath="";

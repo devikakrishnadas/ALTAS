@@ -8,13 +8,38 @@
  *
  * @author christy
  */
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+
 public class UpcomingTestUIExaminee extends javax.swing.JPanel {
 
     /**
      * Creates new form UpcomingTestUIExaminee
      */
-    public UpcomingTestUIExaminee() {
+    public UpcomingTestUIExaminee(javax.swing.JTabbedPane tabpanel,ExamineeUI p,Test t) {
         initComponents();
+        this.tabpanel = tabpanel;
+        this.window = p;
+        this.test = t;
+        SimpleDateFormat dateFormater = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFormater = new SimpleDateFormat("hh:mm:ss a");
+        setJTextField1(test.Testname);
+        setJTextField2(String.valueOf(test.Testid));
+        setJTextField3(dateFormater.format(test.Starttime));
+        setJTextField4(timeFormater.format(test.Starttime));
+        setJTextField5(dateFormater.format(test.Endtime));
+        setJTextField6(timeFormater.format(test.Endtime));
     }
 
     /**
@@ -37,7 +62,6 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
@@ -70,8 +94,6 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
         jLabel5.setText("End Time :");
 
         jTextField5.setEditable(false);
-
-        jButton2.setText("Cancel");
 
         jButton3.setText("End");
         jButton3.setEnabled(false);
@@ -113,9 +135,8 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
                                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE))
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(34, 34, 34))))
         );
         layout.setVerticalGroup(
@@ -146,10 +167,8 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(67, 67, 67)
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -161,23 +180,83 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Configurator C = new Configurator();
-        String s = C.start();
+        StringBuilder response = null;
+        serverDetails sd = new serverDetails();
+        int r = sd.fetchDetails();
+        if(r!=0) {
+            javax.swing.JOptionPane.showMessageDialog(this,"Error");
+            return;
+        }
+        try {
+            String GET_URL = sd.url+"/Time";
+            System.out.println(GET_URL);
+            URL obj = new URL(GET_URL);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("GET");
+            int responseCode = con.getResponseCode();
+            System.out.println("GET Response Code :: " + responseCode);
+            if (responseCode == HttpURLConnection.HTTP_OK) { // success
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                response = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+                System.out.println(response.toString());
+            }
+            else {
+                System.out.println("GET request not worked");
+                return;
+            }
+        }
+        catch (MalformedURLException urle) {
+            JOptionPane.showMessageDialog(tabpanel, "Cannot find judge server");
+            return;
+        }
+        catch (IOException ioe) {
+            JOptionPane.showMessageDialog(tabpanel, "Error");
+            return;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date temp = null;
+        try {
+            temp = sdf.parse(response.toString());
+        }
+        catch (ParseException pe) {
+            JOptionPane.showMessageDialog(tabpanel, "Time error");
+            return;
+        }
+        Timestamp servertime = new Timestamp(temp.getTime());
+        if(servertime.before(test.Starttime)) {
+            JOptionPane.showMessageDialog(tabpanel, "Test has not started yet");
+            return;
+        }
+        if(servertime.after(test.Endtime)) {
+            JOptionPane.showMessageDialog(tabpanel, "Test is over");
+            return;
+        }
+        //String s = C.start();
         jButton1.setEnabled(false);
         jButton3.setEnabled(true);
+        tabpanel.setEnabledAt(3, true);
+        tabpanel.setSelectedComponent(tabpanel.getComponentAt(3));
+        tabpanel.setEnabledAt(1, false);
+        tabpanel.setEnabledAt(2, false);
+        window.setCurrentTest(test);
+        window.resetsubmissions();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         Configurator C = new Configurator();
-        String s = C.end();
+        //String s = C.end();
         jButton3.setEnabled(false);
     }//GEN-LAST:event_jButton3ActionPerformed
-    public void Insert(Test T) {
-        
-    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -192,6 +271,9 @@ public class UpcomingTestUIExaminee extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
+    private javax.swing.JTabbedPane tabpanel;
+    private ExamineeUI window;
+    private Test test;
     void setJTextField1 (String s) {
         jTextField1.setText(s);    
     }
